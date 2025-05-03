@@ -3,12 +3,13 @@ import { Flex } from "antd";
 import LoginCard from "../components/molecules/LoginCard";
 
 const loginPageStyle = css`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   padding: 12px;
   @media(max-height: 500px) {
-    justify-content: flex-start;
-    padding: 30px 12px;
+    display: block;
+    height: max-content;
+    padding: 50px 12px;
   }
 `
 
