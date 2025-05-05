@@ -8,7 +8,6 @@ const LoginDivider = () => {
       <div css={css`height: 1px; background-color: grey; flex-grow: 1`}></div>
       <Text>atau lanjutkan dengan</Text>
       <div css={css`height: 1px; background-color: grey; flex-grow: 1`}></div>
-
     </Flex>
   )
 }

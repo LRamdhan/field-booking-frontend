@@ -1,6 +1,7 @@
 import { css } from "@emotion/react"
 import { Flex } from "antd";
 import LoginCard from "../components/molecules/LoginCard";
+import { Helmet } from 'react-helmet';
 
 const loginPageStyle = css`
   width: 100%;
@@ -14,13 +15,16 @@ const loginPageStyle = css`
 `
 
 const LoginPage = () => {
-  return (
+  return (<>
+    <Helmet>
+      <title>Login</title>
+    </Helmet>
     <Flex vertical justify="center" component="main" css={loginPageStyle}>
       <div css={css`width: 100%; height: max-content;`}>
         <LoginCard />
       </div>
     </Flex>
-  )
+  </>)
 }
 
 export default LoginPage

@@ -1,5 +1,6 @@
 import { css } from "@emotion/react"
 import RegisterCard from "../components/molecules/RegisterCard";
+import { Helmet } from 'react-helmet';
 
 const registerPageStyle = css`
   width: 100%;
@@ -13,13 +14,16 @@ const registerPageStyle = css`
 `
 
 const RegisterPage = () => {
-  return (
+  return (<>
+    <Helmet>
+      <title>Register</title>
+    </Helmet>
     <main css={registerPageStyle}>
       <div css={css`width: 100%; height: max-content;`}>
         <RegisterCard />
       </div>
     </main>
-  )
+  </>)
 }
 
 export default RegisterPage

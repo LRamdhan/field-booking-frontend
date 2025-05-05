@@ -1,66 +1,42 @@
 import { Select, Typography, Space } from 'antd';
 import { css } from "@emotion/react"
+import { useEffect } from 'react';
+import userApi from '../../api/userApi';
 const { Text } = Typography;
+import {useState} from 'react'
+import useRegisterStore from '../../store/registerStore';
 
 const SelectDistrict = () => {
-  const options = [
-    {
-      value: '1',
-      label: 'Not Identified',
-    },
-    {
-      value: '2',
-      label: 'Closed',
-    },
-    {
-      value: '3',
-      label: 'Communicated',
-    },
-    {
-      value: '4',
-      label: 'Identified',
-    },
-    {
-      value: '5',
-      label: 'Resolved',
-    },
-    {
-      value: '6',
-      label: 'Cancelled',
-    },
-    {
-      value: '3',
-      label: 'Communicated',
-    },
-    {
-      value: '4',
-      label: 'Identified',
-    },
-    {
-      value: '5',
-      label: 'Resolved',
-    },
-    {
-      value: '6',
-      label: 'Cancelled',
-    },
-    {
-      value: '3',
-      label: 'Communicated',
-    },
-    {
-      value: '4',
-      label: 'Identified',
-    },
-    {
-      value: '5',
-      label: 'Resolved',
-    },
-    {
-      value: '6',
-      label: 'Cancelled',
-    },
-  ]
+  const [districtOptions, setDistrictOptions] = useState([])
+  const city = useRegisterStore(state => state.city)
+  const setDistrict = useRegisterStore(state => state.setDistrict)
+  const setSubDistrict = useRegisterStore(state => state.setSubDistrict)
+  const district = useRegisterStore(state => state.district)
+
+  const handleChange = (value, option) => {
+    setDistrict({
+      code: option.code,
+      name: value
+    })
+    setSubDistrict(null)
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if(!city) {
+          setDistrictOptions([])
+          return
+        }
+        let district = await userApi.getDistrict(city.code)
+        district = district.map(item => ({ value: item.name, label: item.name, code: item.code }))
+        setDistrictOptions(district)
+      } catch(err) {
+        console.log(err.message);
+        setDistrictOptions([])
+      }
+    })()
+  }, [city])
 
   return (
     <Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
@@ -70,7 +46,9 @@ const SelectDistrict = () => {
         placeholder="Pilih kecamatan"
         optionFilterProp="label"
         size="large"
-        options={options}
+        value={district?.name || null}
+        options={districtOptions}
+        onChange={handleChange}
         css={css`width: 100%;`}
       />
     </Space>
