@@ -2,6 +2,7 @@ import Cookies from "js-cookie"
 import { Link, Navigate } from "react-router-dom"
 import { Flex, Typography, Button } from "antd";
 import { css } from "@emotion/react";
+import { Helmet } from "react-helmet";
 const {Title, Text} = Typography
 
 const OauthErrorPage = () => {
@@ -11,7 +12,10 @@ const OauthErrorPage = () => {
   return (<>
     {(accessToken || refreshToken) ? (
       <Navigate to="/" /> 
-    ) : (
+    ) : (<>
+      <Helmet>
+        <title>Error</title>
+      </Helmet>
       <Flex justify="center" align="center" css={css`width: 100%; height: 100vh; padding: 12px;`}>
         <Flex vertical align="center">
           <Title level={2} css={css`font-size: 26px; margin-bottom: 28px;`}>Error!</Title>
@@ -21,7 +25,7 @@ const OauthErrorPage = () => {
           </Link>
         </Flex>
       </Flex>
-    )}
+    </>)}
   </>)
 }
 

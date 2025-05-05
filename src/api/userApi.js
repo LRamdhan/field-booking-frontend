@@ -31,6 +31,16 @@ const userApi = {
       socket.disconnect()
       onReceived()
     });  
+  },
+
+  login: async (data) => {
+    let result = await authBackend.post('/users/login', data)
+    result = {
+      accessToken: result.data.data.access_token,
+      refreshToken: result.data.data.refresh_token
+    }
+    Cookies.set('access_token', result.accessToken, { expires: 1 / 96 })
+    Cookies.set('refresh_token', result.refreshToken, { expires: 30 })
   }
 }
 
