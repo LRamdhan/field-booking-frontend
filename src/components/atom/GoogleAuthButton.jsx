@@ -5,7 +5,7 @@ import { BACKEND_API } from "../../config/env"
 
 const GoogleAuthButton = () => {
   return (
-    <Button size="large" href={BACKEND_API + '/users/login/google'} icon={<FcGoogle />} css={css`width: 100%;`}>Google</Button> 
+    <Button size="large" href={BACKEND_API + '/users/login/google'} icon={<FcGoogle />} css={css`width: 100%; font-size: 15px; color: var(--text-color);`}>Google</Button> 
   )
 }
 

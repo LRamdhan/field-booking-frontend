@@ -1,7 +1,7 @@
 @layer reset, antd;
-
 @import url(reset.css) layer(reset);
+@import url(variabels.css);
 
-* {
-  font-size: 15px;
+body, html {
+  background-color: var(--background-color);
 }

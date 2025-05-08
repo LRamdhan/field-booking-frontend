@@ -20,8 +20,9 @@ const cardStyle = css`
   max-width: 400px;
   height: max-content;
   margin: 0 auto;
-  border: 1px solid grey;
+  border: .7px solid var(--blur-color);
   padding: 25px 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   @media(min-width: 768px) {
     padding: 25px 16px
   }
@@ -65,14 +66,14 @@ const LoginCard = () => {
     {contextHolder}
     <Card css={cardStyle}>
       <form action="" onSubmit={handleSubmit}>
-        <Title level={2} css={css`text-align: center; font-size: 28px; margin-bottom: 40px;`}>Login</Title>
+        <Title level={2} css={css`text-align: center; font-size: 28px; margin-bottom: 40px; color: var(--text-color);`}>Login</Title>
         <Space direction="vertical" css={css`width: 100%;`} size={24}>
           <FieldEmail value={emailDec} setValue={setEmailDec} />
           <FieldPassword value={passwordDec} setValue={setPasswordDec} />
-          <Button size="large" type="primary" htmlType="submit" loading={isLoading} css={css`width: 100%;`}>Login</Button>
+          <Button size="large" type="primary" htmlType="submit" loading={isLoading} css={css`width: 100%; font-weight: 500; * {color: var(--background-color); font-size: 15px;}`}>Login</Button>
           <LoginDivider />
           <GoogleAuthButton />
-          <p css={css`text-align: center; width: 100%; font-size: 14px;`}>Belum punya akun? <Link to="/register">Register</Link></p>
+          <p css={css`text-align: center; width: 100%; font-size: 14px; color: var(--secondary-color);`}>Belum punya akun? <Link to="/register" css={css`font-size: 14px; color: blue;`}>Register</Link></p>
         </Space>
       </form>
     </Card>
