@@ -9,6 +9,7 @@ import OauthErrorPage from "./pages/OauthErrorPage";
 import { ConfigProvider } from 'antd';
 import Layout from "./pages/Layout";
 import FieldPage from "./pages/FieldPage";
+import DetailFieldPage from "./pages/DetailFieldPage";
 
 const router = createBrowserRouter([
   {
@@ -19,13 +20,13 @@ const router = createBrowserRouter([
         path: "/",
         element: <ProtectedRoute><DasboardPage /></ProtectedRoute>
       },
-      // {
-      //   path: "/lapang",
-      //   element: <ProtectedRoute><FieldPage /></ProtectedRoute>
-      // },
       {
         path: "/lapang",
         element: <FieldPage />
+      },
+      {
+        path: "/lapang/:id",
+        element: <DetailFieldPage />
       },
     ]
   },
