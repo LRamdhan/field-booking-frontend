@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import ContentLayout from "../components/layout/ContentLayout"
 import { Carousel, Image } from 'antd';
 import FieldContent from "../components/organism/FieldContent";
+import { Outlet } from "react-router-dom";
 
 const DetailFieldPage = () => {
   const dummyImg = [
@@ -26,6 +27,7 @@ const DetailFieldPage = () => {
         ))}
       </Carousel>
       <FieldContent />
+      <Outlet />
     </ContentLayout>
   )
 }

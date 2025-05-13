@@ -10,6 +10,7 @@ import { ConfigProvider } from 'antd';
 import Layout from "./pages/Layout";
 import FieldPage from "./pages/FieldPage";
 import DetailFieldPage from "./pages/DetailFieldPage";
+import BookingPage from "./pages/BookingPage";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/lapang/:id",
-        element: <DetailFieldPage />
+        element: <DetailFieldPage />,
+        children: [
+          {
+            path: '/lapang/:id/booking',
+            element: <BookingPage />
+          }
+        ]
       },
     ]
   },

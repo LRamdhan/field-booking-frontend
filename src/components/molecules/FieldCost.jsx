@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import { Typography, Flex, Button } from "antd";
 const { Title, Text } = Typography;
+import { Link } from 'react-router-dom';
+
 
 const FieldCost = ({side}) => {
 
@@ -11,7 +13,9 @@ const FieldCost = ({side}) => {
         <Title level={4} css={css`font-size: 22px; margin: 0; color: var(--text-color);`}>Rp120.000</Title>
         <Text css={css`color: var(--secondary-color); font-size: 14px;`}>/sesi</Text>
       </Flex>
-      <Button type="primary" size="large" css={css`width: 100%; font-size: 15px; font-weight: 500; color: var(--background-color); margin-top: 14px;`}>Booking</Button>
+      <Link to="/lapang/cek/booking">
+        <Button type="primary" size="large" css={css`width: 100%; font-size: 15px; font-weight: 500; color: var(--background-color); margin-top: 14px;`}>Booking</Button>
+      </Link>
     </div>
   )
 }
