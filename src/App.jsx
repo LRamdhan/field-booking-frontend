@@ -11,6 +11,7 @@ import Layout from "./pages/Layout";
 import FieldPage from "./pages/FieldPage";
 import DetailFieldPage from "./pages/DetailFieldPage";
 import BookingPage from "./pages/BookingPage";
+import UserBookingPage from "./pages/UserBookingPage";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path: '/booking',
+        element: <UserBookingPage />
+      }
     ]
   },
   {
