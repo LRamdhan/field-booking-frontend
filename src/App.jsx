@@ -24,11 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/lapang",
-        element: <FieldPage />
+        element: <ProtectedRoute><FieldPage /></ProtectedRoute>
       },
       {
         path: "/lapang/:id",
-        element: <DetailFieldPage />,
+        element: <ProtectedRoute><DetailFieldPage /></ProtectedRoute>,
         children: [
           {
             path: '/lapang/:id/booking',
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/booking',
-        element: <UserBookingPage />
+        element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>
       }
     ]
   },

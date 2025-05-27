@@ -31,8 +31,8 @@ const FieldPage = () => {
           <PageTitle>lapang</PageTitle>
         </div>
         <div css={listStyle}>
-          {exampleField.map(() => (
-            <FieldCard />
+          {exampleField.map((e, i) => (
+            <FieldCard key={i} />
           ))}
         </div>
       </div>

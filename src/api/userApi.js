@@ -41,7 +41,34 @@ const userApi = {
     }
     Cookies.set('access_token', result.accessToken, { expires: 1 / 96 })
     Cookies.set('refresh_token', result.refreshToken, { expires: 30 })
+  },
+
+  logout: async () => {
+    const token = Cookies.get('access_token')
+    await authBackend.delete('/users/logout', { 
+      headers: { 
+        'Authorization': `Bearer ${token}` 
+      }
+    }).catch(err => {
+      if(err.response.status === 401) {
+        Cookies.remove('access_token')
+        Cookies.remove('refresh_token')
+      }
+      throw err
+    })
+    Cookies.remove('access_token')
+    Cookies.remove('refresh_token')
+  },
+
+  getNewToken: async () => {
+    const refreshToken = Cookies.get('refresh_token')
+    const result = await authBackend.post('/users/refresh-token', {
+      refresh_token: refreshToken
+    })
+    return result.data?.data?.access_token
   }
+
+
 }
 
 export default userApi

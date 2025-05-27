@@ -7,9 +7,9 @@ import { MdInsertComment } from "react-icons/md";
 
 const ButtonGroup = ({item, isDesktop}) => (
   <Flex justify="flex-end" wrap gap={17} css={css`padding: ${isDesktop ? '0' : '16px'};`}>
-    <Button type="primary" icon={<IoQrCode css={css`font-size: 16px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--background-color); display: ${item.status === 'aktif' ? 'flex' : 'none'};`}>QR Code</Button>
-    <Button type="primary" icon={<MdOutlinePayment css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--background-color); display: ${item.status === 'pending' ? 'flex' : 'none'};`}>Bayar</Button>
-    <Button type="primary" icon={<MdInsertComment css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--background-color); display: ${item.status === 'selesai' ? 'flex' : 'none'};`}>Ulas</Button>
+    <Button icon={<IoQrCode css={css`font-size: 16px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${item.status === 'aktif' ? 'flex' : 'none'};`}>QR Code</Button>
+    <Button icon={<MdOutlinePayment css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${item.status === 'pending' ? 'flex' : 'none'};`}>Bayar</Button>
+    <Button icon={<MdInsertComment css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${item.status === 'selesai' ? 'flex' : 'none'};`}>Ulas</Button>
     <Button type="primary" icon={<BiDetail css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--background-color);`}>Detail</Button>
   </Flex>
 )
@@ -54,7 +54,7 @@ const BookingList = () => {
               </Flex>
             </div>
             <Flex vertical justify="space-between" align="flex-end">
-              <Typography.Text css={css`font-size: 14px; color: var(--text-color); display: block; font-weight: 500; text-transform: capitalize; color: ${item.status === 'aktif' ? 'green' : item.status === 'pending' ? 'orange' : 'grey'};`}>{item.status}</Typography.Text>
+              <Typography.Text css={css`font-size: 14px; color: var(--text-color); display: block; font-weight: 500; text-transform: capitalize; color: ${item.status === 'aktif' ? '#00CE00' : item.status === 'pending' ? '#FFB03D' : '#7B818A'};`}>{item.status}</Typography.Text>
               <div css={css`display: none; @media(min-width: 768px) { display: block; }`}>
                 <ButtonGroup item={item} isDesktop={true} />
               </div>

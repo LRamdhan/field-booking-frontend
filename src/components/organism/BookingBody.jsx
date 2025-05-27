@@ -12,6 +12,7 @@ const bodyStyle = css`
   height: 400px;
   overflow-y: scroll;
   padding-left: 5px;
+  padding-right: 15px;
    
   ::-webkit-scrollbar {
     width: 5px; /* Width of vertical scrollbar */

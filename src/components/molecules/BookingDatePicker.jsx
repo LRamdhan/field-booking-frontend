@@ -6,6 +6,7 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 const dateListStyle = css`
   overflow-x: auto;
   overflow-y: hidden;
+  padding-bottom: 15px;
 
   ::-webkit-scrollbar {
     width: 5px; /* Width of vertical scrollbar */
@@ -56,6 +57,7 @@ const BookingDatePicker = () => {
             e.stopPropagation();
             setPanelVisible(true);
           }}
+          css={css`padding-bottom: 15px;`}
         >
           <Button type="primary" size="large" icon={<FaRegCalendarAlt css={css`font-size: 25px;`} />} css={css`width: 50px; height: 50px;`} />
           <div
