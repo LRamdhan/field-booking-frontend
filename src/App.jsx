@@ -12,6 +12,7 @@ import FieldPage from "./pages/FieldPage";
 import DetailFieldPage from "./pages/DetailFieldPage";
 import BookingPage from "./pages/BookingPage";
 import UserBookingPage from "./pages/UserBookingPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const router = createBrowserRouter([
   {
@@ -24,11 +25,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/lapang",
-        element: <ProtectedRoute><FieldPage /></ProtectedRoute>
+        element: <FieldPage />
       },
       {
         path: "/lapang/:id",
-        element: <ProtectedRoute><DetailFieldPage /></ProtectedRoute>,
+        element: <DetailFieldPage />,
         children: [
           {
             path: '/lapang/:id/booking',
@@ -62,11 +63,15 @@ const theme = {
   }
 }
 
+const queryClient = new QueryClient()
+
 function App() {
   return (<>
     <StyleProvider layer>
       <ConfigProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />   
+      </QueryClientProvider>
       </ConfigProvider>
     </StyleProvider>
   </>

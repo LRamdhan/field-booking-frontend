@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Typography, Flex } from "antd";
+import { Typography, Flex, Skeleton } from "antd";
 const { Title, Text } = Typography;
 import { IoMdFootball } from "react-icons/io";
 import { FaMedkit } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { MdScoreboard } from "react-icons/md";
 import { FaVest } from "react-icons/fa6";
 import { MdOutlineTag } from "react-icons/md";
 import { MdOutlineAirlineSeatReclineNormal } from "react-icons/md";
+import useFieldDetailStore from "../../store/fieldDetailStore";
 
 const facilityStyle = css`
   margin-top: 20px;
@@ -23,44 +24,69 @@ const facilityStyle = css`
 `
 
 const FieldFacility = () => {
-  const facilities = [
-    {
-      title: "Bola Cadangan",
-      icon: <IoMdFootball css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-    {
-      title: "P3K",
-      icon: <FaMedkit css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-    {
-      title: "Scoring Board",
-      icon: <MdScoreboard css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-    {
-      title: "Rompi",
-      icon: <FaVest css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-    {
-      title: "Jaring Pembatas",
-      icon: <MdOutlineTag css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-    {
-      title: "Bangku",
-      icon: <MdOutlineAirlineSeatReclineNormal css={css`font-size: 24px; color: var(--text-color);`} />
-    },
-  ]
+  const isPending = useFieldDetailStore(state => state.isPending)
+  const facilities = useFieldDetailStore(state => state.facilities)
+  let parsedFacilities = []
+
+  if(facilities) {
+    parsedFacilities = facilities.map((e) => {
+      switch(e) {
+        case "Backup Balls" :
+          return {
+            title: "Bola Cadangan",
+            icon: <IoMdFootball css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        case "P3K" :
+          return {
+            title: "P3K",
+            icon: <FaMedkit css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        case "Scoring Board" :
+          return {
+            title: "Scoring Board",
+            icon: <MdScoreboard css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        case "Rompi" :
+          return {
+            title: "Rompi",
+            icon: <FaVest css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        case "Net" :
+          return {
+            title: "Jaring Pembatas",
+            icon: <MdOutlineTag css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        case "Seats" :
+          return {
+            title: "Bangku",
+            icon: <MdOutlineAirlineSeatReclineNormal css={css`font-size: 24px; color: var(--text-color);`} />
+          }
+          break
+        default : 
+          return false
+      }
+    })
+  };
 
   return (
     <div>
-      <Title level={3} css={css`font-size: 18px; color: var(--text-color); margin: 0;`}>Fasilitas</Title>
-      <div css={facilityStyle}>
-        {facilities.map((e, i) => (
-          <Flex align="center" gap={9} key={i}>
-            {e.icon}
-            <Text css={css`font-size: 15px; color: var(--text-color);`}>{e.title}</Text>
-          </Flex>
-        ))}
-      </div>
+      {isPending && (<Skeleton active paragraph={{ rows: 2 }} />)}
+      {facilities && (<>
+        <Title level={3} css={css`font-size: 18px; color: var(--text-color); margin: 0;`}>Fasilitas</Title>
+        <div css={facilityStyle}>
+          {parsedFacilities.map((e, i) => (
+            <Flex align="center" gap={9} key={i}>
+              {e.icon}
+              <Text css={css`font-size: 15px; color: var(--text-color);`}>{e.title}</Text>
+            </Flex>
+          ))}
+        </div>
+      </>)}
     </div>
   )
 }

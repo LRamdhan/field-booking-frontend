@@ -9,19 +9,19 @@ const cardStyle = css`
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 `
 
-const FieldCard = () => {
+const FieldCard = ({data}) => {
   return (
-    <Link to="/lapang/lapang-z">
+    <Link to={`/lapang/${data.id}`}>
       <Card
         css={cardStyle}
-        cover={<img alt="lapang" src="https://jasakontraktorlapangan.id/wp-content/uploads/2023/05/Analisa-Bisnis-Lapangan-Futsal.jpg" css={css`width: 100%; height: 185px;`} />}
+        cover={<img alt="lapang" src={data.img} css={css`width: 100%; height: 185px;`} />}
       >
         <Flex justify="space-between" align="center" css={css`margin-bottom: 7px;`}>
-          <Title level={3} css={css`font-size: 20px; color: var(--text-color); margin: 0;`}>Lapang A</Title>
-          <Rate disabled defaultValue={3} css={css`font-size: 16px;`} />
+          <Title level={3} css={css`font-size: 20px; color: var(--text-color); margin: 0;`}>{data.name}</Title>
+          <Rate disabled defaultValue={data.rating} css={css`font-size: 16px;`} />
         </Flex>
-        <Text css={css`font-size: 15px; color: var(--secondary-color); display: block; margin-bottom: 11px;`}>Indoor</Text>
-        <FieldCharge />
+        <Text css={css`font-size: 15px; color: var(--secondary-color); display: block; margin-bottom: 11px; text-transform: capitalize;`}>{data.location.toLowerCase()}</Text>
+        <FieldCharge data={data.cost} />
       </Card>
     </Link>
   )

@@ -1,32 +1,44 @@
 import { css } from "@emotion/react";
 import ContentLayout from "../components/layout/ContentLayout"
-import { Carousel, Image } from 'antd';
+import { Carousel, Image, Skeleton } from 'antd';
 import FieldContent from "../components/organism/FieldContent";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import { useFieldDetail } from "../hook/fieldHook";
+import useFieldDetailStore from "../store/fieldDetailStore";
+import FetchError from "../components/molecules/FetchError";
+
+const carouselStyle = css`width: 100%; height: 250px;`
 
 const DetailFieldPage = () => {
-  const dummyImg = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLVgQdSyp6MLiQs0C5bz1-f504eBz6xQh2pg&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVECM7gd1zOfYJew9cUNxCuaefi-R4Mlfipg&s',
-    'htq=tbn:ANd9GcSUaFZ_pn3AOPe2vEHXI1IkUMXzHZgtsTKhBA&s',
-  ]
+  const {id} = useParams()
+  useFieldDetail(id)
+  const images = useFieldDetailStore(state => state.images)
+  const isPending = useFieldDetailStore(state => state.isPending)
+  const error = useFieldDetailStore(state => state.error)
+  const refetch = useFieldDetailStore(state => state.refetch)
 
   return (
     <ContentLayout>
-      <Carousel arrows infinite={false} css={css`width: 100%; height: 250px;`}>
-        {dummyImg.map((e, i) => (
-          <Image
-            width="100%"
-            height={250}
-            preview={false}
-            css={css`object-fit: cover; object-position: center;`}
-            key={i}
-            src={e}
-            fallback={'/img/error-img-load.svg'}
-          />
-        ))}
-      </Carousel>
-      <FieldContent />
+      {error && <FetchError refetch={() => refetch()} />}
+      {isPending && (
+        <Skeleton.Image active css={carouselStyle} />
+      )}
+      {images && (
+        <Carousel arrows infinite={false} css={carouselStyle}>
+          {images.map((e, i) => (
+            <Image
+              width="100%"
+              height={250}
+              preview={false}
+              css={css`object-fit: cover; object-position: center;`}
+              key={i}
+              src={e}
+              fallback={'/img/error-img-load.svg'}
+            />
+          ))}
+        </Carousel>
+      )}
+      {!error && <FieldContent />}
       <Outlet />
     </ContentLayout>
   )

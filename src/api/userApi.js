@@ -68,7 +68,6 @@ const userApi = {
     return result.data?.data?.access_token
   }
 
-
 }
 
 export default userApi

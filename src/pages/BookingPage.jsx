@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { Modal, Typography } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import BookingFooter from '../components/molecules/BookingFooter';
 import BookingBody from '../components/organism/BookingBody';
 
@@ -8,9 +8,10 @@ const BookingTitle = () => <Typography.Title css={css`font-size: 18px; color: va
 
 const BookingPage = () => {
   const navigate = useNavigate()
+  const {id: fieldId} = useParams()
 
   const handleCancel = () => {
-    navigate('/lapang/cek')
+    navigate('/lapang/' + fieldId)
   }
 
   return (

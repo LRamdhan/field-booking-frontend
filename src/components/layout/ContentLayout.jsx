@@ -4,7 +4,7 @@ const layoutStyle = css`
   margin: 30px auto 0 auto;
   padding: 0 12px;
   max-width: 960px;
-  @media(min-width: 768px) {
+  @media(min-width: 984px) {
     padding: 0;
   }
 `

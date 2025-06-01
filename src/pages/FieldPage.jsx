@@ -2,6 +2,9 @@ import { Helmet } from "react-helmet"
 import PageTitle from "../components/atom/PageTitle"
 import { css } from "@emotion/react"
 import FieldCard from "../components/organism/FieldCard"
+import { useFields } from "../hook/fieldHook.js"
+import FetchError from "../components/molecules/FetchError"
+import FieldListSkeleton from "../components/molecules/FieldListSkeleton"
 
 const listStyle = css`
   display: grid;
@@ -19,22 +22,34 @@ const listStyle = css`
 `
 
 const FieldPage = () => {
-  const exampleField = [1, 2, 3]
+  const { data: fields, isPending, error, refetch } = useFields()
+
+  if(error) console.log(error.message);
 
   return (<>
     <Helmet>
-      <title>Dashboard</title>
+      <title>Lapang</title>
     </Helmet>
     <main css={css`width: 100%; padding: 0 12px;`}>
       <div css={css`margin: 50px auto; max-width: 961px;`}>
         <div css={css`margin-bottom: 28px;`}>
           <PageTitle>lapang</PageTitle>
         </div>
-        <div css={listStyle}>
-          {exampleField.map((e, i) => (
-            <FieldCard key={i} />
-          ))}
+        {error && <FetchError refetch={() => refetch()} />}
+        {isPending && (
+          <div css={listStyle}>
+            {[1, 2, 3].map((e, i) => (
+              <FieldListSkeleton key={i} />
+            ))}
         </div>
+        )}
+        {fields && (
+          <div css={listStyle}>
+            {fields.map((e, i) => (
+              <FieldCard key={i} data={e} />
+            ))}
+          </div>
+        )}
       </div>
     </main>
   </>)
