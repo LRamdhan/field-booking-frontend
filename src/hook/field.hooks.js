@@ -45,5 +45,13 @@ export const useFieldReviews = (id, page, limit, star) => {
   useEffect(() => {
     init(data, isPending, error, refetch)
   }, [page, star, data, isPending, error, refetch])
+}
 
+export const useUseFieldSchedule = (fieldId, date) => {
+  return useQuery({
+    queryFn: async () => await fieldApi.getSchedule(fieldId, date),
+    queryKey: ['field_schedule', fieldId, date],
+    retry: 1,
+    select: (data) => data.data.data
+  })
 }

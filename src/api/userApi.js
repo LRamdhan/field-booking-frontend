@@ -1,8 +1,9 @@
 import axios from "axios"
 import { LOCATION_API } from "../config/env"
-import authBackend from "../config/authBackend"
+import publicBackend from "../config/publicBackend"
 import socket from "../config/wsClient"
 import Cookies from "js-cookie"
+import privateBackend from "../config/privateBackend"
 
 const userApi = {
   getCity: async () => {
@@ -21,7 +22,7 @@ const userApi = {
   },
 
   register: async (data, onReceived) => {
-    await authBackend.post('/users/register', data)
+    await publicBackend.post('/users/register', data)
     socket.auth.email = data.email
     socket.connect()
     socket.on('register', (message) => {      
@@ -34,7 +35,7 @@ const userApi = {
   },
 
   login: async (data) => {
-    let result = await authBackend.post('/users/login', data)
+    let result = await publicBackend.post('/users/login', data)
     result = {
       accessToken: result.data.data.access_token,
       refreshToken: result.data.data.refresh_token
@@ -45,7 +46,7 @@ const userApi = {
 
   logout: async () => {
     const token = Cookies.get('access_token')
-    await authBackend.delete('/users/logout', { 
+    await privateBackend.delete('/users/logout', { 
       headers: { 
         'Authorization': `Bearer ${token}` 
       }
@@ -62,7 +63,7 @@ const userApi = {
 
   getNewToken: async () => {
     const refreshToken = Cookies.get('refresh_token')
-    const result = await authBackend.post('/users/refresh-token', {
+    const result = await publicBackend.post('/users/refresh-token', {
       refresh_token: refreshToken
     })
     return result.data?.data?.access_token

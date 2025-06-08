@@ -1,8 +1,8 @@
 import axios from "axios";
 import { BACKEND_API } from "./env";
 
-const authBackend = axios.create({
+const publicBackend = axios.create({
   baseURL: BACKEND_API,
 });
 
-export default authBackend;
+export default publicBackend;

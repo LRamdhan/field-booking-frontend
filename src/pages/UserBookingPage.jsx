@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { Typography, Pagination } from "antd";
 import BookingFilter from "../components/molecules/BookingFilter";
 import BookingList from "../components/organism/BookingList";
+import { Outlet } from "react-router-dom";
 
 const layoutStyle = css`
   margin: 30px auto 0 auto;
@@ -23,6 +24,7 @@ const UserBookingPage = () => {
       <BookingList />
       <div css={css`height: 30px;`}></div>
       <Pagination defaultCurrent={1} total={50} align="center" />
+      <Outlet />
     </main>
   )
 }

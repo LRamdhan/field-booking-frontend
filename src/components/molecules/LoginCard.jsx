@@ -5,7 +5,7 @@ import FieldEmail from "../atom/FieldEmail";
 import LoginDivider from "../atom/LoginDivider";
 const { Title } = Typography;
 import FieldPassword from "../atom/FieldPassword";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleAuthButton from "../atom/GoogleAuthButton";
 import useLoginStore from "../../store/loginStore";
 import { useState } from "react";
@@ -32,13 +32,15 @@ const LoginCard = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate()
+  const location = useLocation();
+  const from = location.state?.from
 
   const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true)
     try {
       await login()
-      navigate('/')
+      navigate(from || '/dashboard')
       setIsLoading(false)
     } catch(err) {
       let message
@@ -73,7 +75,7 @@ const LoginCard = () => {
           <Button size="large" type="primary" htmlType="submit" loading={isLoading} css={css`width: 100%; font-weight: 500; * {color: var(--background-color); font-size: 15px;}`}>Login</Button>
           <LoginDivider />
           <GoogleAuthButton />
-          <p css={css`text-align: center; width: 100%; font-size: 14px; color: var(--secondary-color);`}>Belum punya akun? <Link to="/register" css={css`font-size: 14px; color: blue;`}>Register</Link></p>
+          <p css={css`text-align: center; width: 100%; font-size: 14px; color: var(--secondary-color);`}>Belum punya akun? <Link to="/register" state={{from: from && from}} css={css`font-size: 14px; color: blue;`}>Register</Link></p>
         </Space>
       </form>
     </Card>

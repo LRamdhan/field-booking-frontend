@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import FieldReviewHead from "../molecules/FieldReviewHead"
 import FieldReviewList from "../molecules/FieldReviewList"
 import {Pagination, Space, Flex} from 'antd';
-import { useFieldReviews } from "../../hook/fieldHook";
+import { useFieldReviews } from "../../hook/field.hooks";
 import useFieldReviewStore from "../../store/fieldReviewStore";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";

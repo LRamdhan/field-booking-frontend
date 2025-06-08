@@ -13,15 +13,36 @@ import DetailFieldPage from "./pages/DetailFieldPage";
 import BookingPage from "./pages/BookingPage";
 import UserBookingPage from "./pages/UserBookingPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import locale from 'antd/locale/id_ID';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import LandingPage from "./pages/LandingPage";
+import PaymentPage from "./pages/PaymentPage";
+
+dayjs.locale('id');
 
 const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <LandingPage />
+  },
   {
     path: '/',
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: "/dashboard",
         element: <ProtectedRoute><DasboardPage /></ProtectedRoute>
+      },
+      {
+        path: '/booking',
+        element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>,
+        children: [
+          {
+            path: '/booking/:id/bayar',
+            element: <ProtectedRoute><PaymentPage /></ProtectedRoute>
+          }
+        ]
       },
       {
         path: "/lapang",
@@ -36,10 +57,6 @@ const router = createBrowserRouter([
             element: <BookingPage />
           }
         ]
-      },
-      {
-        path: '/booking',
-        element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>
       }
     ]
   },
@@ -68,7 +85,7 @@ const queryClient = new QueryClient()
 function App() {
   return (<>
     <StyleProvider layer>
-      <ConfigProvider theme={theme}>
+      <ConfigProvider theme={theme} locale={locale}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />   
       </QueryClientProvider>
