@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import LandingPage from "./pages/LandingPage";
 import PaymentPage from "./pages/PaymentPage";
+import BookingQrPage from "./pages/BookingQrPage";
 
 dayjs.locale('id');
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: '/booking/:id/bayar',
             element: <ProtectedRoute><PaymentPage /></ProtectedRoute>
+          },
+          {
+            path: '/booking/:id/qr-code',
+            element: <ProtectedRoute><BookingQrPage /></ProtectedRoute>
           }
         ]
       },

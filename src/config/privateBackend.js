@@ -25,7 +25,6 @@ privateBackend.interceptors.response.use(function (response) {
       Cookies.set('access_token', token, { expires: 1 / 96 })    
       return privateBackend(error.config)
     } catch(err) {
-      console.log(err.message);
       Cookies.remove('access_token')
       Cookies.remove('refresh_token')  
       throw new UnauthorizeError('Refresh Token Error')

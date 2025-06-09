@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import fieldApi from "../api/fieldApi"
 import useFieldDetailStore from "../store/fieldDetailStore"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import useFieldReviewStore from "../store/fieldReviewStore"
 
 export const useFields = () => {
@@ -10,6 +10,24 @@ export const useFields = () => {
     queryKey: ['fields-list'],
     retry: 3,
     select: (data) => data.data.data
+  })
+}
+
+export const useFieldOption = () => {
+  return useQuery({
+    queryFn: async () => await fieldApi.getFields(),
+    queryKey: ['fields-option'],
+    retry: 3,
+    select: (data) => {
+      const option = data.data.data.map(item => ({ value: item.id, label: item.name }))
+      return [
+        {
+          value: 0,
+          label: 'Semua Lapang'
+        },
+        ...option
+      ]
+    }
   })
 }
 
@@ -53,5 +71,28 @@ export const useUseFieldSchedule = (fieldId, date) => {
     queryKey: ['field_schedule', fieldId, date],
     retry: 1,
     select: (data) => data.data.data
+  })
+}
+
+export const useCreateReview = (fieldId, data) => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (data) => await fieldApi.createReview(fieldId, data),
+    retry: 0,
+    onSuccess: async () => {
+      return await queryClient.invalidateQueries({
+        predicate: query => {
+          const key = query.queryKey
+          if(key[0] === 'fields' && key[1] === fieldId && key[2] === 'review') {
+            return true
+          }
+          if(key[0] === 'user_booking') {
+            return true
+          }
+          return false
+        }
+      })
+    },
   })
 }

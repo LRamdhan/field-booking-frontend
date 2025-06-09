@@ -2,12 +2,12 @@ import privateBackend from "../config/privateBackend"
 
 const bookingApi = {
   createBooking: async (data) => {
-    return privateBackend.post('/bookings', data)
+    return await privateBackend.post('/bookings', data)
   },
 
   getUserBooking: async (page, limit, status = null, createOrder = null, fieldId = null) => {
     const url = `/bookings?page=${page}&limit=${limit}${status ? `&status=${status}` : ''}${createOrder ? `&create_order=${createOrder}` : ''}${fieldId ? `&field_id=${fieldId}` : ''}`
-    return privateBackend.get(url)
+    return await privateBackend.get(url)
   }
 }
 

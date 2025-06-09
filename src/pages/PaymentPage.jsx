@@ -20,7 +20,7 @@ const PaymentPage = () => {
       destroyOnHidden={true}
       onCancel={handleCancel}
     >
-      ya begitulah
+      payment
     </Modal>
   )
 }

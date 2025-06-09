@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import bookingApi from "../api/bookingApi"
 import { useEffect } from "react"
 import useUserBookingStore from "../store/userBookingStore"
@@ -33,10 +33,12 @@ export const useGetUserBooking = (page, limit, status = null, createOrder = null
     queryFn: async () => await bookingApi.getUserBooking(page, limit, status, createOrder, fieldId),
     queryKey,
     retry: 3,
-    select: (data) => data.data.data
+    select: (data) => {
+      return data.data.data
+    }
   })
 
   useEffect(() => {
-    init()
+    init(data, isPending, error, refetch, page, status, createOrder, fieldId)
   }, [data, isPending, error, refetch, page, status, createOrder, fieldId])
 }

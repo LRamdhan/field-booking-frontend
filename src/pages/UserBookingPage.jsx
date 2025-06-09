@@ -1,8 +1,14 @@
 import { css } from "@emotion/react";
-import { Typography, Pagination } from "antd";
+import { Typography } from "antd";
 import BookingFilter from "../components/molecules/BookingFilter";
 import BookingList from "../components/organism/BookingList";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useGetUserBooking } from "../hook/booking.hooks";
+import { Helmet } from "react-helmet";
+import useUserBookingStore from "../store/userBookingStore";
+import UserBookingPagination from "../components/molecules/UserBookingPagination";
+import UnauthorizeError from "../exception/UnauthorizeError";
+import { useEffect } from "react";
 
 const layoutStyle = css`
   margin: 30px auto 0 auto;
@@ -14,8 +20,28 @@ const layoutStyle = css`
 `
 
 const UserBookingPage = () => {
+  const navigate = useNavigate()
+  const page = useUserBookingStore(state => state.page)
+  const limit = useUserBookingStore(state => state.limit)
+  const status = useUserBookingStore(state => state.status)
+  const createOrder = useUserBookingStore(state => state.createOrder)
+  const fieldId = useUserBookingStore(state => state.fieldId)
+  const error = useUserBookingStore(state => state.error)
 
-  return (
+  useGetUserBooking(page, limit, status, createOrder, fieldId)
+
+  useEffect(() => {
+    if(error) {
+      if(error instanceof UnauthorizeError) {
+        navigate('/login')
+      }
+    }
+  }, [error])
+
+  return (<>
+    <Helmet>
+      <title>Booking</title>
+    </Helmet>
     <main css={layoutStyle}>
       <Typography.Title css={css`font-size: 24px; color: var(--text-color); margin: 0; font-weight: 500;`}>Booking</Typography.Title>
       <div css={css`height: 30px;`}></div>
@@ -23,10 +49,10 @@ const UserBookingPage = () => {
       <div css={css`height: 18px;`}></div>
       <BookingList />
       <div css={css`height: 30px;`}></div>
-      <Pagination defaultCurrent={1} total={50} align="center" />
+      <UserBookingPagination />
       <Outlet />
     </main>
-  )
+  </>)
 }
 
 export default UserBookingPage
