@@ -10,7 +10,18 @@ export const useCreateBooking = (fieldId) => {
     mutationFn: async (data) => await bookingApi.createBooking(data),
     retry: 0,
     onSuccess: async () => {
-      return await queryClient.invalidateQueries({queryKey: ['field_schedule', fieldId]})
+      return await queryClient.invalidateQueries({
+        predicate: query => {
+          const key = query.queryKey
+          if(key[0] === 'field_schedule' && key[1] === fieldId) {
+            return true
+          }
+          if(key[0] === 'user_booking') {
+            return true
+          }
+          return false
+        }
+      })
     },
     onError: async (error) => {
       if(error.status === 409) {

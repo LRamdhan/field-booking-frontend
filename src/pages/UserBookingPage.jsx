@@ -2,13 +2,12 @@ import { css } from "@emotion/react";
 import { Typography } from "antd";
 import BookingFilter from "../components/molecules/BookingFilter";
 import BookingList from "../components/organism/BookingList";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useGetUserBooking } from "../hook/booking.hooks";
 import { Helmet } from "react-helmet";
 import useUserBookingStore from "../store/userBookingStore";
 import UserBookingPagination from "../components/molecules/UserBookingPagination";
-import UnauthorizeError from "../exception/UnauthorizeError";
-import { useEffect } from "react";
+import { useCheckAuth } from "../hook/utils.hook";
 
 const layoutStyle = css`
   margin: 30px auto 0 auto;
@@ -20,7 +19,6 @@ const layoutStyle = css`
 `
 
 const UserBookingPage = () => {
-  const navigate = useNavigate()
   const page = useUserBookingStore(state => state.page)
   const limit = useUserBookingStore(state => state.limit)
   const status = useUserBookingStore(state => state.status)
@@ -29,14 +27,7 @@ const UserBookingPage = () => {
   const error = useUserBookingStore(state => state.error)
 
   useGetUserBooking(page, limit, status, createOrder, fieldId)
-
-  useEffect(() => {
-    if(error) {
-      if(error instanceof UnauthorizeError) {
-        navigate('/login')
-      }
-    }
-  }, [error])
+  useCheckAuth(error)
 
   return (<>
     <Helmet>

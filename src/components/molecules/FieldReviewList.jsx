@@ -25,8 +25,8 @@ const FieldReviewList = () => {
         <Card css={css`border: .7px solid var(--blur-color);`} key={item.id}>
           <Flex justify="space-between">
             <Flex gap={12} css={css`width: max-content;`}>
-              <Avatar size="large" src={item.user.img_url} css={css`width: 42px; height: 42px;`}>
-                {'udin'}
+              <Avatar size="large" src={item.user.img_url || '#'} css={css`width: 42px; height: 42px; ${!item.user.img_url ? 'background-color: var(--primary-color);' : ''}`}>
+                {item.user.name.split(" ")[0]}
               </Avatar>
               <Flex vertical={true}>
                 <Text css={css`font-size: 15px; color: var(--text-color);`}>{item.user.name}</Text>

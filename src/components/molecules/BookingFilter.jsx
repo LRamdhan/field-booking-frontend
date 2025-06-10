@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import { Select, Space } from 'antd';
 import useUserBookingStore from '../../store/userBookingStore';
 import { useFieldOption } from '../../hook/field.hooks';
+import BOOKING_STATUS from '../../constant/bookingStatus';
 
 const BookingFilter = () => {
   const status = useUserBookingStore(state => state.status)
@@ -31,9 +32,9 @@ const BookingFilter = () => {
         value={status}
         options={[
           { value: 0, label: 'Semua' },
-          { value: 'aktif', label: 'Aktif' },
-          { value: 'pending', label: 'Pending' },
-          { value: 'selesai', label: 'Selesai' },
+          { value: BOOKING_STATUS.AKTIF, label: 'Aktif' },
+          { value: BOOKING_STATUS.PENDING, label: 'Pending' },
+          { value: BOOKING_STATUS.SELESAI, label: 'Selesai' },
         ]}
         onChange={handChangeStatus}
         css={css`* {font-size: 15px; color: var(--text-color);} width: 100px;`}

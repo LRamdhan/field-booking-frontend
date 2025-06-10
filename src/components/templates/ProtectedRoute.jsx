@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import userApi from '../api/userApi';
+import userApi from '../../api/userApi';
 import { useEffect, useState } from 'react';
 
 const ProtectedRoute = ({children}) => {

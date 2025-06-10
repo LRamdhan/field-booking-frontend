@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import FetchError from '../molecules/FetchError';
 import BookingCreateReview from './BookingCreateReview';
 import { useState } from 'react';
+import BOOKING_STATUS from '../../constant/bookingStatus';
 
 const ButtonGroup = ({item, isDesktop, setFieldId, setBookingId}) => {
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ const ButtonGroup = ({item, isDesktop, setFieldId, setBookingId}) => {
 
   return (
     <Flex justify="flex-end" wrap gap={17} css={css`padding: ${isDesktop ? '0' : '16px'};`}>
-      <Button icon={<IoQrCode css={css`font-size: 16px;`} />} onClick={handleQrCode} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${item.status === 'aktif' ? 'flex' : 'none'};`}>QR Code</Button>
-      <Button icon={<MdOutlinePayment css={css`font-size: 18px;`} />} onClick={handlePay} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${(item.status === 'pending') && (item.payment_token) ? 'flex' : 'none'};`}>Bayar</Button>
-      <Button icon={<MdInsertComment css={css`font-size: 18px;`} />} onClick={handleReview} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${(item.status === 'selesai' && !item.isReviewed) ? 'flex' : 'none'};`}>Ulas</Button>
+      <Button icon={<IoQrCode css={css`font-size: 16px;`} />} onClick={handleQrCode} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${item.status === BOOKING_STATUS.AKTIF ? 'flex' : 'none'};`}>QR Code</Button>
+      <Button icon={<MdOutlinePayment css={css`font-size: 18px;`} />} onClick={handlePay} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${(item.status === BOOKING_STATUS.PENDING) && (item.payment_token) ? 'flex' : 'none'};`}>Bayar</Button>
+      <Button icon={<MdInsertComment css={css`font-size: 18px;`} />} onClick={handleReview} css={css`font-size: 15px; font-weight: 500; color: var(--primary-color); border: 1.5px solid var(--primary-color); background-color: var(--background-color); display: ${(item.status === BOOKING_STATUS.SELESAI && !item.isReviewed) ? 'flex' : 'none'};`}>Ulas</Button>
       <Button type="primary" onClick={handleDetail} icon={<BiDetail css={css`font-size: 18px;`} />} css={css`font-size: 15px; font-weight: 500; color: var(--background-color);`}>Detail</Button>
     </Flex>
   )
