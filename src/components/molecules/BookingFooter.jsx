@@ -15,6 +15,7 @@ import { useEffect } from "react"
 const BookingFooter = () => {
   const cost = useFieldDetailStore(state => state.cost)
   const fieldId = useFieldDetailStore(state => state.id)
+  const fieldName = useFieldDetailStore(state => state.name)
   const selectedDate = useBookingStore(state => state.selectedDate)
   const selectedHour = useBookingStore(state => state.selectedHour)
   const setSelectedHour = useBookingStore(state => state.setSelectedHour)
@@ -54,7 +55,7 @@ const BookingFooter = () => {
         setPoaSuccess(true)
         setBookingId(response.booking_id)
       } else { // if success with ONLINE -> redirect to user booking page and show midtrans popup
-        navigate('/booking/' + response.booking_id + '/bayar', {state: { payment_token: response.payment_token }})
+        navigate('/booking/' + response.booking_id + '/bayar', {state: { payment_token: response.payment_token, fieldId: fieldId, fieldName: fieldName}}) // here
       }
     }
   }, [isSuccess, data])

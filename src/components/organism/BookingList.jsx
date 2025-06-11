@@ -22,7 +22,7 @@ const ButtonGroup = ({item, isDesktop, setFieldId, setBookingId}) => {
   }
   
   const handlePay = () => {
-    navigate(`/booking/${item.id}/bayar`, {state: {payment_token: item.payment_token}})
+    navigate(`/booking/${item.id}/bayar`, {state: {payment_token: item.payment_token, fieldId: item.field.id, fieldName: item.field.name}})
   }
 
   const handleQrCode = () => {
