@@ -11,7 +11,6 @@ import UnauthorizeError from "../../exception/UnauthorizeError"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 
-
 const BookingFooter = () => {
   const cost = useFieldDetailStore(state => state.cost)
   const fieldId = useFieldDetailStore(state => state.id)

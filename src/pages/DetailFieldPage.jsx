@@ -25,7 +25,6 @@ const DetailFieldPage = () => {
       {isPending && <title>...</title>}
       {error && <title>Error</title>}
     </Helmet>
-  
     <ContentLayout>
       {error && <FetchError refetch={() => refetch()} />}
       {isPending && (

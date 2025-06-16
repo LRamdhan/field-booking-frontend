@@ -13,7 +13,7 @@ const ColBody = ({children}) => {
   )
 }
 
-const BookingDetailRow = ({title,field1, value1, field2, value2}) => {
+const BookingDetailRow = ({title, field1, value1, field2, value2}) => {
   return (
     <div css={css`padding: 18px 0;`}>
       <Typography.Title css={css`font-size: 15px; color: var(--text-color); font-weight: 500; text-transform: capitalize; margin: 0;`}>{title}</Typography.Title>

@@ -8,6 +8,7 @@ import { FaVest } from "react-icons/fa6";
 import { MdOutlineTag } from "react-icons/md";
 import { MdOutlineAirlineSeatReclineNormal } from "react-icons/md";
 import useFieldDetailStore from "../../store/fieldDetailStore";
+import FACILITIES from "../../constant/facilities";
 
 const facilityStyle = css`
   margin-top: 20px;
@@ -31,37 +32,37 @@ const FieldFacility = () => {
   if(facilities) {
     parsedFacilities = facilities.map((e) => {
       switch(e) {
-        case "Backup Balls" :
+        case FACILITIES.BACKUP_BALS :
           return {
             title: "Bola Cadangan",
             icon: <IoMdFootball css={css`font-size: 24px; color: var(--text-color);`} />
           }
           break
-        case "P3K" :
+        case FACILITIES.P3K :
           return {
             title: "P3K",
             icon: <FaMedkit css={css`font-size: 24px; color: var(--text-color);`} />
           }
           break
-        case "Scoring Board" :
+        case FACILITIES.SCORING_BOARD :
           return {
             title: "Scoring Board",
             icon: <MdScoreboard css={css`font-size: 24px; color: var(--text-color);`} />
           }
           break
-        case "Rompi" :
+        case FACILITIES.VEST :
           return {
             title: "Rompi",
             icon: <FaVest css={css`font-size: 24px; color: var(--text-color);`} />
           }
           break
-        case "Net" :
+        case FACILITIES.NET :
           return {
             title: "Jaring Pembatas",
             icon: <MdOutlineTag css={css`font-size: 24px; color: var(--text-color);`} />
           }
           break
-        case "Seats" :
+        case FACILITIES.SEAT :
           return {
             title: "Bangku",
             icon: <MdOutlineAirlineSeatReclineNormal css={css`font-size: 24px; color: var(--text-color);`} />
