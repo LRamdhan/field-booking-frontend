@@ -39,8 +39,8 @@ const SelectDistrict = () => {
   }, [city])
 
   return (
-    <Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
-      <Text>Kecamatan</Text>
+    <Space direction="vertical" size="small" css={css`* {font-size: 15px;} width: 100%;`}>
+      <Text css={css`color: var(--text-color);`}>Kecamatan</Text>
       <Select
         showSearch
         placeholder="Pilih kecamatan"

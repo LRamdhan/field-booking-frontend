@@ -10,8 +10,8 @@ const FieldEmail = ({value, setValue}) => {
     setEmail(e.target.value);
   }
 
-  return (<Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
-    <Text>Email</Text>
+  return (<Space direction="vertical" size="small" css={css`* {font-size: 15px;} width: 100%;`}>
+    <Text css={css`color: var(--text-color);`}>Email</Text>
     <Input size="large" type="email" placeholder="Masukan email" value={email} onChange={handleChange} />
   </Space>)
 }

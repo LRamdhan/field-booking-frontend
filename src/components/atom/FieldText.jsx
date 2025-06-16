@@ -7,9 +7,9 @@ const FieldText = () => {
   const name = useRegisterStore(state => state.name)
   const setName = useRegisterStore(state => state.setName)
 
-  return (<Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
-    <Text>Nama</Text>
-    <Input size="large" placeholder="Masukan nama" value={name} onChange={e => setName(e.target.value)} />
+  return (<Space direction="vertical" size="small" css={css`width: 100%;`}>
+    <Text css={css`font-size: 15px; color: var(--text-color);`}>Nama</Text>
+    <Input size="large" placeholder="Masukan nama" value={name} onChange={e => setName(e.target.value)} css={css`font-size: 15px;`} />
   </Space>)
 }
 

@@ -4,13 +4,71 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage';
 import DasboardPage from './pages/DashboardPage.jsx';
-import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedRoute from "./components/templates/ProtectedRoute";
 import OauthErrorPage from "./pages/OauthErrorPage";
+import { ConfigProvider } from 'antd';
+import Layout from "./components/templates/Layout";
+import FieldPage from "./pages/FieldPage";
+import DetailFieldPage from "./pages/DetailFieldPage";
+import BookingPage from "./pages/BookingPage";
+import UserBookingPage from "./pages/UserBookingPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import locale from 'antd/locale/id_ID';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+import LandingPage from "./pages/LandingPage";
+import PaymentPage from "./pages/PaymentPage";
+import BookingQrPage from "./pages/BookingQrPage";
+import BookingDetailPage from "./pages/BookingDetailPage";
+
+dayjs.locale('id');
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <ProtectedRoute><DasboardPage /></ProtectedRoute>
+    path: '/',
+    element: <LandingPage />
+  },
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <ProtectedRoute><DasboardPage /></ProtectedRoute>
+      },
+      {
+        path: '/booking',
+        element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>,
+        children: [
+          {
+            path: '/booking/:id',
+            element: <ProtectedRoute><BookingDetailPage /></ProtectedRoute>
+          },
+          {
+            path: '/booking/:id/bayar',
+            element: <ProtectedRoute><PaymentPage /></ProtectedRoute>
+          },
+          {
+            path: '/booking/:id/qr-code',
+            element: <ProtectedRoute><BookingQrPage /></ProtectedRoute>
+          }
+        ]
+      },
+      {
+        path: "/lapang",
+        element: <FieldPage />
+      },
+      {
+        path: "/lapang/:id",
+        element: <DetailFieldPage />,
+        children: [
+          {
+            path: '/lapang/:id/booking',
+            element: <BookingPage />
+          }
+        ]
+      }
+    ]
   },
   {
     path: "/login",
@@ -26,10 +84,22 @@ const router = createBrowserRouter([
   },
 ])
 
+const theme = {
+  token: {
+    colorPrimary: '#FF6F00',
+  }
+}
+
+const queryClient = new QueryClient()
+
 function App() {
   return (<>
     <StyleProvider layer>
-      <RouterProvider router={router} />   
+      <ConfigProvider theme={theme} locale={locale}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />   
+      </QueryClientProvider>
+      </ConfigProvider>
     </StyleProvider>
   </>
   )

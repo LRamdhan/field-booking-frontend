@@ -47,8 +47,8 @@ const SelectCity = () => {
   }, [])
 
   return (
-    <Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
-      <Text>Kota</Text>
+    <Space direction="vertical" size="small" css={css`width: 100%;`}>
+      <Text css={css`font-size: 15px; color: var(--text-color);`}>Kota</Text>
       <Select
         showSearch
         placeholder="Pilih kota"
@@ -57,7 +57,7 @@ const SelectCity = () => {
         value={city?.name || null}
         options={cityOptions}
         onChange={handleChange}
-        css={css`width: 100%;`}
+        css={css`width: 100%; * {font-size: 15px;}`}
       />
     </Space>
   )

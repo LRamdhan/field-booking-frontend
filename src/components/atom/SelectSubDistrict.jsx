@@ -36,8 +36,8 @@ const SelectSubDistrict = () => {
   }, [district])
 
   return (
-    <Space direction="vertical" size="small" css={css`font-size: 15px; width: 100%;`}>
-      <Text>Desa</Text>
+    <Space direction="vertical" size="small" css={css`* {font-size: 15px;} width: 100%;`}>
+      <Text css={css`color: var(--text-color);`}>Desa</Text>
       <Select
         showSearch
         placeholder="Pilih desa"
