@@ -57,6 +57,7 @@ const BookingCancelModal = () => {
 
   useEffect(() => {
     if(cancelBookingSuccess) {
+      setShowCancelModal(false)
       navigate('/booking')
     }
   }, [cancelBookingSuccess])
