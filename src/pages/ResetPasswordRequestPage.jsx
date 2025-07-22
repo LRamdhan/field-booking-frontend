@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet"
 import ResetPasswordRequestContent from "../components/organism/ResetPasswordRequestContent";
 import ResetPasswordRequestSuccess from "../components/organism/ResetPasswordRequestSuccess";
-import { useCancelBooking } from "../hook/user.hooks";
+import { useRequestResetPassword } from "../hook/user.hooks";
 import { useState } from "react";
 import { notification } from "antd";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ import { MdOutlineError } from "react-icons/md";
 
 const ResetPasswordRequestPage = () => {
   const [email, setEmail] = useState('')
-  const {mutate: requestResetPassword, isPending, error, isSuccess} = useCancelBooking(email)
+  const {mutate: requestResetPassword, isPending, error, isSuccess} = useRequestResetPassword(email)
   const [api, contextHolder] = notification.useNotification();
 
   const handleRequestResetPassword = () => {

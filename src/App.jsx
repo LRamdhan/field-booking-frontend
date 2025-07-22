@@ -22,6 +22,7 @@ import BookingQrPage from "./pages/BookingQrPage";
 import BookingDetailPage from "./pages/BookingDetailPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordRequestPage from "./pages/ResetPasswordRequestPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 dayjs.locale('id');
 
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: "/reset-password-request",
     element: <ResetPasswordRequestPage />
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPasswordPage />
   },
 ])
 

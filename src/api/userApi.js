@@ -72,6 +72,10 @@ const userApi = {
   requestResetPassword: async (email) => {
     await publicBackend.post('/users/password/request-reset', { email })
   },
+  
+  resetPassword: async (otp, password) => {
+    await publicBackend.patch('/users/password', { otp, new_password: password })
+  },
 }
 
 export default userApi

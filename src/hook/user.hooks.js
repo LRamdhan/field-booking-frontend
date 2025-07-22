@@ -1,11 +1,18 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import userApi from "../api/userApi"
 
-export const useCancelBooking = (email) => {
-  const queryClient = useQueryClient()
-
+export const useRequestResetPassword = (email) => {
   return useMutation({
-    mutationFn: async (data) => await userApi.requestResetPassword(email),
-    retry: 3,
+    mutationFn: async () => await userApi.requestResetPassword(email),
+    retry: 1,
+  })
+}
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: async ({otp, password}) => {
+      await userApi.resetPassword(otp, password)
+    },
+    retry: 1,
   })
 }
