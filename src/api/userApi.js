@@ -67,8 +67,11 @@ const userApi = {
       refresh_token: refreshToken
     })
     return result.data?.data?.access_token
-  }
+  },
 
+  requestResetPassword: async (email) => {
+    await publicBackend.post('/users/password/request-reset', { email })
+  },
 }
 
 export default userApi

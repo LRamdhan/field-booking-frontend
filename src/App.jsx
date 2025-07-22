@@ -20,6 +20,8 @@ import LandingPage from "./pages/LandingPage";
 import PaymentPage from "./pages/PaymentPage";
 import BookingQrPage from "./pages/BookingQrPage";
 import BookingDetailPage from "./pages/BookingDetailPage";
+import ProfilePage from "./pages/ProfilePage";
+import ResetPasswordRequestPage from "./pages/ResetPasswordRequestPage";
 
 dayjs.locale('id');
 
@@ -67,6 +69,11 @@ const router = createBrowserRouter([
             element: <BookingPage />
           }
         ]
+      },
+      {
+        path: "/profile",
+        // element: <ProtectedRoute><ProfilePage /></ProtectedRoute>
+        element: <ProfilePage />
       }
     ]
   },
@@ -81,6 +88,10 @@ const router = createBrowserRouter([
   {
     path: "/oauth-error",
     element: <OauthErrorPage />
+  },
+  {
+    path: "/reset-password-request",
+    element: <ResetPasswordRequestPage />
   },
 ])
 

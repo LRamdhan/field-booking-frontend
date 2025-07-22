@@ -34,6 +34,8 @@ const NavBar = () => {
       <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
       <Link to="/booking">Booking</Link>
       <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <Link to="/profile">Profile</Link>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
       <Button type="primary" onClick={handleLogout}>Logout</Button>
     </nav>
   )
