@@ -76,6 +76,18 @@ const userApi = {
   resetPassword: async (otp, password) => {
     await publicBackend.patch('/users/password', { otp, new_password: password })
   },
+
+  getProfile: async () => {
+    return await privateBackend.get('/users')
+  },
+
+  updateProfile: async (data) => {
+    return await privateBackend.patch('/users', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  }
 }
 
 export default userApi
