@@ -100,6 +100,16 @@ const userApi = {
         'Content-Type': 'multipart/form-data'
       }
     })
+  },
+
+  getDevice: async () => {
+    const result = await privateBackend.get('/users/devices')    
+    return result
+  },
+
+  logoutDevice: async (id) => {
+    const result = await privateBackend.delete(`/users/devices/${id}`)
+    return result
   }
 }
 

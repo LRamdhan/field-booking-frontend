@@ -47,3 +47,24 @@ export const useUpdateProfile = () => {
     },
   })
 }
+
+export const useGetDevice = () => {
+  return useQuery({
+    queryFn: async () => await userApi.getDevice(),
+    queryKey: ['device'],
+    retry: 3,
+    select: (data) => data.data.data
+  })
+}
+
+export const useLogoutDevice = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (id) => await userApi.logoutDevice(id),
+    retry: 0,
+    onSuccess: async () => {
+      return await queryClient.invalidateQueries({queryKey: ['device']})
+    },
+  })
+}

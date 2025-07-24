@@ -23,6 +23,7 @@ import BookingDetailPage from "./pages/BookingDetailPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordRequestPage from "./pages/ResetPasswordRequestPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import DevicePage from "./pages/DevicePage";
 
 dayjs.locale('id');
 
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <ProtectedRoute><ProfilePage /></ProtectedRoute>
+      },
+      {
+        path: "/perangkat",
+        element: <ProtectedRoute><DevicePage /></ProtectedRoute>
       }
     ]
   },
