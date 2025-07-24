@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import userApi from "../api/userApi";
 
 const useProfileStore = create((set, get) => ({
   editMode: false,
@@ -13,9 +14,9 @@ const useProfileStore = create((set, get) => ({
   editName: '',
   editEmail: '',
   editImg: null,
-  editCity: '',
-  editDistrict: '',
-  editSubDistrict: '',
+  editCity: null,
+  editDistrict: null,
+  editSubDistrict: null,
 
   isPending: false,
   error: null,
@@ -30,7 +31,7 @@ const useProfileStore = create((set, get) => ({
   setEditDistrict: editDistrict => set({ editDistrict }),
   setEditSubDistrict: editSubDistrict => set({ editSubDistrict }),
 
-  init: (data, isPending, error, refetch) => {
+  init: async (data, isPending, error, refetch) => {
     const newState = {
       isPending,
       error,
@@ -40,15 +41,29 @@ const useProfileStore = create((set, get) => ({
       newState.name = data.name
       newState.email = data.email
       newState.imgUrl = data.img_url
-      newState.city = data.city
-      newState.district = data.district
-      newState.subDistrict = data.sub_district
+
+      newState.city = {name: data?.city}
+      newState.district = {name: data?.district}
+      newState.subDistrict = {name: data?.sub_district}
+      
       newState.editName = data.name
       newState.editEmail = data.email
       newState.editImg = null
-      newState.editCity = data.city
-      newState.editDistrict = data.district
-      newState.editSubDistrict = data.sub_district
+
+      newState.editCity = {name: data?.city}
+      newState.editDistrict = {name: data?.district}
+      newState.editSubDistrict = {name: data?.sub_district}
+
+      try {
+        const cityCode = await userApi.getCityCode(data?.city)
+        newState.city.code = cityCode
+        newState.editCity.code = cityCode
+        const districtCode = await userApi.getDistrictCode(data?.district, cityCode)
+        newState.district.code = districtCode
+        newState.editDistrict.code = districtCode
+      } catch(err) {
+        console.log(err.message);
+      }
     }
     set(newState)
   },

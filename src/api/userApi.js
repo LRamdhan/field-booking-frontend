@@ -21,6 +21,19 @@ const userApi = {
     return result.data.data
   },
 
+  getCityCode: async (city) => {
+    city = city.toUpperCase()
+    const result = await axios.get(LOCATION_API + '/regencies?limit=100&provinceCode=32&name=' + city)
+    return result.data.data[0].code
+  },
+  getDistrictCode: async (district, regencyCode) => {
+    const result = await axios.get(LOCATION_API + '/districts?limit=100&name=' + district + '&regencyCode=' + regencyCode)
+    if(!result.data.data[0]?.code) {
+      throw new Error('District Not Found')
+    }
+    return result.data.data[0].code
+  },
+
   register: async (data, onReceived) => {
     await publicBackend.post('/users/register', data)
     socket.auth.email = data.email

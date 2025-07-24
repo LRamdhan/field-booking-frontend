@@ -36,14 +36,20 @@ const ProfileEditButton = () => {
     const payload = {
       name: editName,
     }
-    if(editCity.trim()) {
-      payload.city = editCity
+    if(editCity?.name.trim()) {
+      payload.city = editCity.name
+    } else {
+      payload.city = '-'
     }
-    if(editDistrict.trim()) {
-      payload.district = editDistrict
+    if(editDistrict?.name.trim()) {
+      payload.district = editDistrict.name
+    } else {
+      payload.district = '-'
     }
-    if(editSubDistrict.trim()) {
-      payload.sub_district = editSubDistrict
+    if(editSubDistrict?.name.trim()) {
+      payload.sub_district = editSubDistrict.name
+    } else {
+      payload.sub_district = '-'
     }
     if(editImg) {
       payload.img = editImg
