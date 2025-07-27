@@ -14,20 +14,27 @@ const ProfileGeneral = () => {
 
   return (
     <Flex align="center" gap={20} css={css`margin-top: 30px; padding: 25px 16px; border: .5px solid var(--blur-color); border-radius: 7px;`}>
-      {isPending ? 
+      {isPending && 
         <>
           <Skeleton.Avatar active style={{ width: 70, height: 70 }} />
           <Skeleton active paragraph={{ rows: 1 }} />
         </>
-      :
+      }
+      {!isPending && (
         <>
-          {editMode ? 
+          {editMode ? (
             <UploadImg />
-          : 
-            <Avatar size={73} src={imgUrl ? imgUrl : null}>
-              <span css={css`font-size: 25px;`}>{name.split("")[0]}</span>
-            </Avatar>
-          }
+          ) : (
+            <>
+              {imgUrl ? (
+                <Avatar size={73} src={imgUrl} />
+              ) : (
+                <Avatar size={73}>
+                  <span css={css`font-size: 25px;`}>{name.split("")[0]}</span>
+                </Avatar>
+              )}
+            </>
+          )}
           <div>
             {editMode ?
               <Input placeholder="Username" value={editName} onChange={e => setEditName(e.target.value)} css={css`width: 250px; display: block;`} />
@@ -37,7 +44,7 @@ const ProfileGeneral = () => {
             <Typography.Text level={3} css={css`font-size: 14px; color: var(--secondary-color); margin: 0; padding-top: 5px;`}>{email}</Typography.Text>
           </div>
         </>
-      }
+      )}
     </Flex>
   )
 }

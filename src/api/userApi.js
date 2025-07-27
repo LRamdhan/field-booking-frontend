@@ -110,6 +110,21 @@ const userApi = {
   logoutDevice: async (id) => {
     const result = await privateBackend.delete(`/users/devices/${id}`)
     return result
+  },
+
+  requestChangePassword: async () => {
+    return await privateBackend.post('/users/password/request-change')
+  },
+
+  cancelChangeRequest: async () => {
+    return await privateBackend.delete('/users/password/cancel-change-request')
+  },
+  resendChangePasswordOtp: async () => {
+    return await privateBackend.post('/users/password/resend-change-otp')
+  },
+
+  changePassword: async (data) => {
+    return await publicBackend.patch('/users/password', data)
   }
 }
 

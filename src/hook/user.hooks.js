@@ -68,3 +68,21 @@ export const useLogoutDevice = () => {
     },
   })
 }
+export const useRequestChangePassword = () => {
+  return useMutation({
+    mutationFn: async () => await userApi.requestChangePassword(),
+    retry: 0,
+  })
+}
+export const useResendChangePasswordOtp = () => {
+  return useMutation({
+    mutationFn: async () => await userApi.resendChangePasswordOtp(),
+    retry: 0,
+  })
+}
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: async (data) => await userApi.changePassword(data),
+    retry: 0,
+  })
+}

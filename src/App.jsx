@@ -24,6 +24,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ResetPasswordRequestPage from "./pages/ResetPasswordRequestPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import DevicePage from "./pages/DevicePage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 
 dayjs.locale('id');
 
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "/perangkat",
         element: <ProtectedRoute><DevicePage /></ProtectedRoute>
+      },
+      {
+        path: "/kata-sandi",
+        element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
       }
     ]
   },

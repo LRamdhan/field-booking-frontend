@@ -12,10 +12,9 @@ const Point = ({children, fulfilled}) => {
   )
 }
 
-const ResetPasswordComplexity = ({password, confirmPassword, pointLowercase, pointUppercase, pointNumber, point8CharacterLength, pointCorespondConfirmPassword}) => {
-
+const ResetPasswordComplexity = ({password, confirmPassword, pointLowercase, pointUppercase, pointNumber, point8CharacterLength, pointCorespondConfirmPassword, ...other}) => {
   return (
-    <Flex vertical={true} css={css`gap: 3px; margin-top: 20px;`}>
+    <Flex vertical={true} css={css`gap: 3px; margin-top: 20px;`} {...other}>
       <Point fulfilled={pointLowercase}>Terdiri dari huruf kecil</Point>
       <Point fulfilled={pointUppercase}>Terdiri dari huruf besar</Point>
       <Point fulfilled={pointNumber}>Terdiri dari angka</Point>
