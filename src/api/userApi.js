@@ -21,6 +21,19 @@ const userApi = {
     return result.data.data
   },
 
+  getCityCode: async (city) => {
+    city = city.toUpperCase()
+    const result = await axios.get(LOCATION_API + '/regencies?limit=100&provinceCode=32&name=' + city)
+    return result.data.data[0].code
+  },
+  getDistrictCode: async (district, regencyCode) => {
+    const result = await axios.get(LOCATION_API + '/districts?limit=100&name=' + district + '&regencyCode=' + regencyCode)
+    if(!result.data.data[0]?.code) {
+      throw new Error('District Not Found')
+    }
+    return result.data.data[0].code
+  },
+
   register: async (data, onReceived) => {
     await publicBackend.post('/users/register', data)
     socket.auth.email = data.email
@@ -67,8 +80,52 @@ const userApi = {
       refresh_token: refreshToken
     })
     return result.data?.data?.access_token
-  }
+  },
 
+  requestResetPassword: async (email) => {
+    await publicBackend.post('/users/password/request-reset', { email })
+  },
+  
+  resetPassword: async (otp, password) => {
+    await publicBackend.patch('/users/password', { otp, new_password: password })
+  },
+
+  getProfile: async () => {
+    return await privateBackend.get('/users')
+  },
+
+  updateProfile: async (data) => {
+    return await privateBackend.patch('/users', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+  },
+
+  getDevice: async () => {
+    const result = await privateBackend.get('/users/devices')    
+    return result
+  },
+
+  logoutDevice: async (id) => {
+    const result = await privateBackend.delete(`/users/devices/${id}`)
+    return result
+  },
+
+  requestChangePassword: async () => {
+    return await privateBackend.post('/users/password/request-change')
+  },
+
+  cancelChangeRequest: async () => {
+    return await privateBackend.delete('/users/password/cancel-change-request')
+  },
+  resendChangePasswordOtp: async () => {
+    return await privateBackend.post('/users/password/resend-change-otp')
+  },
+
+  changePassword: async (data) => {
+    return await publicBackend.patch('/users/password', data)
+  }
 }
 
 export default userApi
