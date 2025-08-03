@@ -40,7 +40,7 @@ const LoginCard = () => {
     setIsLoading(true)
     try {
       await login()
-      navigate(from || '/dashboard')
+      navigate(from || '/')
       setIsLoading(false)
     } catch(err) {
       let message

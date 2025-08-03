@@ -25,21 +25,19 @@ import ResetPasswordRequestPage from "./pages/ResetPasswordRequestPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import DevicePage from "./pages/DevicePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
+import Root from "./components/templates/Root";
+import UnprotectedRoute from "./components/templates/UnprotectedRoute";
 
 dayjs.locale('id');
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LandingPage />
-  },
-  {
-    path: '/',
     element: <Layout />,
     children: [
       {
-        path: "/dashboard",
-        element: <ProtectedRoute><DasboardPage /></ProtectedRoute>
+        path: "/",
+        element: <Root LandingPage={LandingPage} Dashboard={() => (<ProtectedRoute><DasboardPage /></ProtectedRoute>)} />
       },
       {
         path: '/booking',
@@ -60,6 +58,20 @@ const router = createBrowserRouter([
         ]
       },
       {
+        path: "/profile",
+        element: <ProtectedRoute><ProfilePage /></ProtectedRoute>
+      },
+      {
+        path: "/perangkat",
+        element: <ProtectedRoute><DevicePage /></ProtectedRoute>
+      },
+      {
+        path: "/kata-sandi",
+        element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
+      },
+
+
+      {
         path: "/lapang",
         element: <FieldPage />
       },
@@ -73,39 +85,28 @@ const router = createBrowserRouter([
           }
         ]
       },
+
       {
-        path: "/profile",
-        element: <ProtectedRoute><ProfilePage /></ProtectedRoute>
+        path: "/login",
+        element: <UnprotectedRoute><LoginPage /></UnprotectedRoute>
       },
       {
-        path: "/perangkat",
-        element: <ProtectedRoute><DevicePage /></ProtectedRoute>
+        path: "/register",
+        element: <UnprotectedRoute><RegisterPage /></UnprotectedRoute>
       },
       {
-        path: "/kata-sandi",
-        element: <ProtectedRoute><ChangePasswordPage /></ProtectedRoute>
-      }
+        path: "/oauth-error",
+        element: <UnprotectedRoute><OauthErrorPage /></UnprotectedRoute>
+      },
+      {
+        path: "/reset-password-request",
+        element: <UnprotectedRoute><ResetPasswordRequestPage /></UnprotectedRoute>
+      },
+      {
+        path: "/reset-password",
+        element: <UnprotectedRoute><ResetPasswordPage /></UnprotectedRoute>
+      },
     ]
-  },
-  {
-    path: "/login",
-    element: <LoginPage />
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />
-  },
-  {
-    path: "/oauth-error",
-    element: <OauthErrorPage />
-  },
-  {
-    path: "/reset-password-request",
-    element: <ResetPasswordRequestPage />
-  },
-  {
-    path: "/reset-password",
-    element: <ResetPasswordPage />
   },
 ])
 
