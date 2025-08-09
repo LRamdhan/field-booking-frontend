@@ -76,7 +76,7 @@ const NavbarSignedLinkDropdown = ({handleLogout}) => {
       )}
       placement="bottomRight"
     >
-      <div css={css`display: none;  @media(min-width: 1050px) {display: block; }`}>
+      <div css={css`display: none;  @media(min-width: 768px) {display: block; }`}>
         { userIsPending && (<>
           <Skeleton.Avatar active style={{ width: 40, height: 40 }} />
         </>) }

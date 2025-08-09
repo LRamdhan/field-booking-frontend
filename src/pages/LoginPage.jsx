@@ -5,9 +5,10 @@ import { Helmet } from 'react-helmet';
 
 const loginPageStyle = css`
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 58px);
   padding: 12px;
-  @media(max-height: 500px) {
+
+  @media(max-height: 670px) {
     display: block;
     height: max-content;
     padding: 50px 12px;

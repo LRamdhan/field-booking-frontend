@@ -16,6 +16,7 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 import NavbarSignedLinkDropdown from "../molecules/NavbarSignedLinkDropdown";
 import { useProfile } from "../../hook/user.hooks";
 import useProfileStore from "../../store/profileStore";
+import CloseButton from "../atom/CloseButton";
 
 const drawerStyles = {
   header: {
@@ -111,12 +112,12 @@ const NavbarSigned = () => {
     <>
       {contextHolder}
       <div css={css`height: 58px; width: 100%;`}></div>
-      <nav css={css`border-bottom: .5px solid var(--blur-color); position: fixed; top: 0; left: 0; right: 0; z-index: 999; background-color: var(--background-color); @media(min-width: 1050px) { padding: 0 166px; }`}>
-        <Flex align="center" justify="space-between" css={css`height: 58px; @media(min-width: 1050px) {justify-content: flex-start; }`}>
-          <div css={css`padding: 13px 12px; @media(min-width: 1050px) {padding: 12px 0;}`}>
+      <nav css={css`border-bottom: .5px solid var(--blur-color); position: fixed; top: 0; left: 0; right: 0; z-index: 999; background-color: var(--background-color); @media(min-width: 768px) { display: flex; justify-content: center; }`}>
+        <Flex align="center" justify="space-between" css={css`height: 58px; margin: 0 12px; @media(min-width: 768px) {justify-content: flex-start; width: 961px; }`}>
+          <div css={css`padding: 13px 0;`}>
             <Logo />
           </div>
-          <Space size={48} css={css`display: none; margin-left: 65px; @media(min-width: 1050px) {display: flex; }`}>
+          <Space size={48} css={css`display: none; margin-left: 65px; @media(min-width: 768px) {display: flex; }`}>
             {
               linkCenter.map((item, index) => (
                 <Link key={index} to={item.path} css={css`font-size: 15px; color: var(--text-color); font-weight: 500;`}>
@@ -125,9 +126,9 @@ const NavbarSigned = () => {
               ))
             }
           </Space>
-          <Flex gap={24} align="center" justify="flex-end" css={css`@media(min-width: 1050px) {flex-grow: 1; }`}>
+          <Flex gap={24} align="center" justify="flex-end" css={css`@media(min-width: 768px) {flex-grow: 1; }`}>
             <Button icon={<IoMdNotifications css={css`font-size: 24px;`} />} css={css`border: none; outline: none; background-color: transparent; box-shadow: none;`} />
-            <Hamberger onClick={showDrawer} css={css`@media(min-width: 1050px) {display: none; }`} />
+            <Hamberger onClick={showDrawer} css={css`@media(min-width: 768px) {display: none; }`} />
             <NavbarSignedLinkDropdown handleLogout={handleLogout} />
           </Flex>
         </Flex>
@@ -139,25 +140,28 @@ const NavbarSigned = () => {
       >
         <Drawer
           title={
-            <div css={css`padding: 25px 24px; background-color: var(--primary-color);`}>
-            { userIsPending && (<>
-              <Skeleton.Avatar active style={{ width: 65, height: 65 }} />
-              <Skeleton active paragraph={{ rows: 0 }} css={css`margin-top: 15px;`} />
-            </>) }
-            { userError && (<>
-              <div css={css`width: 50px; height: 50px; background-color: var(--blur-color); border-radius: 50%;`}></div>
-              <h4 css={css`font-size: 17px; font-weight: 500; color: var(--background-color); margin-top: 13px;`}>...</h4>
-            </>) }
-            { username && (<>
-              {userImgUrl ? (
-                <Avatar size={65} src={userImgUrl} />
-              ) : (
-                <Avatar size={65}>
-                  <span css={css`font-size: 25px;`}>{username.split("")[0]}</span>
-                </Avatar>
-              )}
-              <h4 css={css`font-size: 17px; font-weight: 500; color: var(--background-color); margin-top: 13px;`}>{username}</h4>
-            </>) }
+            <div css={css`position: relative; padding: 25px 24px; background-color: var(--primary-color);`}>
+              <div css={css`position: absolute; top: 15px; right: 15px;`}>
+                <CloseButton onClick={onClose} color={'var(--background-color)'} />
+              </div>
+              { userIsPending && (<>
+                <Skeleton.Avatar active style={{ width: 65, height: 65 }} />
+                <Skeleton active paragraph={{ rows: 0 }} css={css`margin-top: 15px;`} />
+              </>) }
+              { userError && (<>
+                <div css={css`width: 50px; height: 50px; background-color: var(--blur-color); border-radius: 50%;`}></div>
+                <h4 css={css`font-size: 17px; font-weight: 500; color: var(--background-color); margin-top: 13px;`}>...</h4>
+              </>) }
+              { username && (<>
+                {userImgUrl ? (
+                  <Avatar size={65} src={userImgUrl} />
+                ) : (
+                  <Avatar size={65}>
+                    <span css={css`font-size: 25px;`}>{username.split("")[0]}</span>
+                  </Avatar>
+                )}
+                <h4 css={css`font-size: 17px; font-weight: 500; color: var(--background-color); margin-top: 13px;`}>{username}</h4>
+              </>) }
             </div>
           }
           width={320}

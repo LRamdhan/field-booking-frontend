@@ -2,6 +2,15 @@
 @import url(reset.css) layer(reset);
 @import url(variabels.css);
 
+@font-face {
+  font-family: 'lato';
+  src: url('/font/Lato-Regular.ttf') format('truetype');
+}
+
+* {
+  font-family: lato;
+}
+
 body, html {
   background-color: var(--background-color);
 }
