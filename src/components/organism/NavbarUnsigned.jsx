@@ -33,8 +33,8 @@ const NavbarUnsigned = () => {
       icon: TbSoccerField
     },
     {
-      name: "Tentang Kita",
-      path: "/tentang-kita",
+      name: "Tentang Kami",
+      path: "/tentang-kami",
       icon: IoBusiness
     },
   ]

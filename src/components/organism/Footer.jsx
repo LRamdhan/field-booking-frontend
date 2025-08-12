@@ -1,13 +1,11 @@
 import { css } from "@emotion/react"
 import LogoImg from "/img/logo.svg"
 import { Link } from "react-router-dom"
-import { FaInstagram } from "react-icons/fa";
 import { Flex } from "antd";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa";
-import { FaFacebookF } from "react-icons/fa6";
 import { FaRegCopyright } from "react-icons/fa6";
 import FooterAnimation from "../animation/FooterAnimation";
+import { IoMdMail } from "react-icons/io";
+import { FaWhatsapp } from "react-icons/fa6";
 
 const contentStyle = css`
   margin-top: 40px;
@@ -56,29 +54,17 @@ const Footer = () => {
             <Link to="#" css={css`margin-top: 11px; display: block; font-size: 14px; color: var(--text-color)`}>Kebijakan Pembatalan</Link>
           </div>
           <div css={css`margin-top: 30px; @media(min-width: 500px) {margin-top: 0;}`}>
-            <h4 css={css`font-size: 14px; color: var(--text-color); font-weight: bold;`}>Ikuti Kami</h4>
-            <Link to="#" css={css`margin-top: 16px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
+            <h4 css={css`font-size: 14px; color: var(--text-color); font-weight: bold;`}>Kontak</h4>
+            <Link to="mailto:admin@lapangku.com" css={css`margin-top: 16px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
               <Flex gap={10} align="center">
-                <FaInstagram css={css`font-size: 20px; color: var(--text-color);`} /> 
-                <span css={css`font-size: 14px; color: var(--text-color);`}>Instagram</span>
+                <IoMdMail css={css`font-size: 20px; color: var(--text-color);`} /> 
+                <span css={css`font-size: 14px; color: var(--text-color);`}>admin@lapangku.com</span>
               </Flex>
             </Link>
-            <Link to="#" css={css`margin-top: 11px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
+            <Link to="https://wa.me/6283283728192" css={css`margin-top: 11px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
               <Flex gap={10} align="center">
-                <FaXTwitter css={css`font-size: 20px; color: var(--text-color);`} /> 
-                <span css={css`font-size: 14px; color: var(--text-color);`}>X</span>
-              </Flex>
-            </Link>
-            <Link to="#" css={css`margin-top: 11px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
-              <Flex gap={10} align="center">
-                <FaYoutube css={css`font-size: 20px; color: var(--text-color);`} /> 
-                <span css={css`font-size: 14px; color: var(--text-color);`}>Youtube</span>
-              </Flex>
-            </Link>
-            <Link to="#" css={css`margin-top: 11px; display: block; font-size: 14px; color: var(--text-color) width: max-content;`}>
-              <Flex gap={10} align="center">
-                <FaFacebookF css={css`font-size: 20px; color: var(--text-color);`} /> 
-                <span css={css`font-size: 14px; color: var(--text-color);`}>Facebook</span>
+                <FaWhatsapp css={css`font-size: 20px; color: var(--text-color);`} /> 
+                <span css={css`font-size: 14px; color: var(--text-color);`}>083283728192</span>
               </Flex>
             </Link>
           </div>

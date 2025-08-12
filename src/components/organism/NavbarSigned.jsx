@@ -1,6 +1,6 @@
 import { css } from "@emotion/react"
 import { Link, useNavigate } from "react-router-dom"
-import { Avatar, Button, ConfigProvider, Drawer, Flex, Skeleton, Space, notification } from "antd";
+import { Avatar, Button, ConfigProvider, Drawer, Flex, Skeleton, Space, notification, Tooltip } from "antd";
 import userApi from "../../api/userApi";
 import { MdOutlineError } from "react-icons/md";
 import Logo from "../atom/Logo";
@@ -127,7 +127,9 @@ const NavbarSigned = () => {
             }
           </Space>
           <Flex gap={24} align="center" justify="flex-end" css={css`@media(min-width: 768px) {flex-grow: 1; }`}>
-            <Button icon={<IoMdNotifications css={css`font-size: 24px;`} />} css={css`border: none; outline: none; background-color: transparent; box-shadow: none;`} />
+            <Tooltip title="Dalam pengembangan">
+              <Button icon={<IoMdNotifications css={css`font-size: 24px;`} />} css={css`border: none; outline: none; background-color: transparent; box-shadow: none;`} />
+            </Tooltip>
             <Hamberger onClick={showDrawer} css={css`@media(min-width: 768px) {display: none; }`} />
             <NavbarSignedLinkDropdown handleLogout={handleLogout} />
           </Flex>

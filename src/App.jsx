@@ -27,6 +27,8 @@ import DevicePage from "./pages/DevicePage";
 import ChangePasswordPage from "./pages/ChangePasswordPage";
 import Root from "./components/templates/Root";
 import UnprotectedRoute from "./components/templates/UnprotectedRoute";
+import NotFoundPage from "./pages/NotFoundPage";
+import AboutUsPage from "./pages/AboutUsPage";
 
 dayjs.locale('id');
 
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
         path: "/",
         element: <Root LandingPage={LandingPage} Dashboard={() => (<ProtectedRoute><DasboardPage /></ProtectedRoute>)} />
       },
+
       {
         path: '/booking',
         element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>,
@@ -106,6 +109,15 @@ const router = createBrowserRouter([
         path: "/reset-password",
         element: <UnprotectedRoute><ResetPasswordPage /></UnprotectedRoute>
       },
+      {
+        path: "/tentang-kami",
+        element: <UnprotectedRoute><AboutUsPage /></UnprotectedRoute>
+      },
+
+      {
+        path: "*",
+        element: <NotFoundPage />
+      }
     ]
   },
 ])

@@ -42,3 +42,10 @@ a {
 ul, ol {
   list-style: none;
 }
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  outline: none;
+}
