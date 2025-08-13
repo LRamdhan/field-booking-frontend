@@ -3,6 +3,7 @@ import bookingApi from "../api/bookingApi"
 import { useEffect } from "react"
 import useUserBookingStore from "../store/userBookingStore"
 import useUserDetailBookingStore from "../store/userDetailBookingStore"
+import BOOKING_STATUS from "../constant/bookingStatus"
 
 export const useCreateBooking = (fieldId) => {
   const queryClient = useQueryClient()
@@ -95,5 +96,21 @@ export const useCancelBooking = (bookingId, fieldId) => {
         }
       })
     },
+  })
+}
+
+export const useGetUserCurrentBooking = () => {
+  const queryKey = ['user_current_booking']
+
+  return useQuery({
+    queryFn: async () => {
+      const bookingPending = await bookingApi.getUserBooking(1, 2, BOOKING_STATUS.PENDING)
+      const bookingActive = await bookingApi.getUserBooking(1, 2, BOOKING_STATUS.AKTIF)
+      return {
+        data: [...bookingActive.data.data.bookings, ...bookingPending.data.data.bookings],
+      }
+    },
+    queryKey,
+    retry: 3,
   })
 }
