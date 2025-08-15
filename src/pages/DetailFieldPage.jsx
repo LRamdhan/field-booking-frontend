@@ -54,7 +54,7 @@ const DetailFieldPage = () => {
       {isPending && (
         <Skeleton.Image active css={carouselStyle} />
       )}
-      {images && (
+      {(images && !error) && (
         <Carousel arrows infinite={false} css={carouselStyle}>
           {images.map((e, i) => (
             <Image

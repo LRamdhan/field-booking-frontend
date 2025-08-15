@@ -31,7 +31,7 @@ const FieldHead = () => {
           <Skeleton.Node active css={css`width: 105px; height: 30px;`} />
           <Skeleton.Node active css={css`width: 112px; height: 32px;`} />
         </>)}
-        {(name && rating) && (<>
+        {(name) && (<>
           <Title level={3} css={css`color: var(--text-color); margin: 0;`}>{name}</Title>
           <Rate disabled value={rating} css={css`font-size: 16px;`} />
         </>)}

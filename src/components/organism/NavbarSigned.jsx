@@ -154,9 +154,9 @@ const NavbarSigned = () => {
                 <div css={css`width: 50px; height: 50px; background-color: var(--blur-color); border-radius: 50%;`}></div>
                 <h4 css={css`font-size: 17px; font-weight: 500; color: var(--background-color); margin-top: 13px;`}>...</h4>
               </>) }
-              { username && (<>
+              { (username && !userError) && (<>
                 {userImgUrl ? (
-                  <Avatar size={65} src={userImgUrl} />
+                  <img src={`${userImgUrl}`} alt={'foto profile'} css={css`width: 65px; height: 65px; border-radius: 50%; object-fit: cover; object-position: center;`} />
                 ) : (
                   <Avatar size={65}>
                     <span css={css`font-size: 25px;`}>{username.split("")[0]}</span>

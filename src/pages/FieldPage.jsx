@@ -51,18 +51,23 @@ const FieldPage = () => {
         </div>
         )}
         {fields && (
-          <FieldAnimation>
-            <div css={listStyle}>
-              {fields.map((e, i) => (
-                <FieldCard key={i} data={e} />
-              ))}
-              {!refreshToken && (
-                <Flex align="center" css={css`display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; @media(min-width: 768px) {display: flex;}`}>
-                  <div css={css`width: 100%; height: 290px; background-color: #FFE1CA; transform: scaleX(1.1); border-radius: 10px;`}></div>
-                </Flex>
-              )}
-            </div>
-          </FieldAnimation>
+          <>
+            {!refreshToken && (
+              <div css={css`width: 100%; height: 20px;`}></div>
+            )}
+            <FieldAnimation>
+              <div css={listStyle}>
+                {fields.map((e, i) => (
+                  <FieldCard key={i} data={e} />
+                ))}
+                {!refreshToken && (
+                  <Flex align="center" css={css`display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; @media(min-width: 768px) {display: flex;}`}>
+                    <div css={css`width: 100%; height: 290px; background-color: #FFE1CA; transform: scaleX(1.1); border-radius: 10px;`}></div>
+                  </Flex>
+                )}
+              </div>
+            </FieldAnimation>
+          </>
         )}
       </div>
     </main>

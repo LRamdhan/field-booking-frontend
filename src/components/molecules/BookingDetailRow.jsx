@@ -3,13 +3,13 @@ import { Typography, Col, Row } from "antd"
 
 const ColHead = ({children}) => {
   return (
-    <Typography.Title css={css`font-size: 14px; color: var(--secondary-color); text-transform: capitalize; margin: 0;`}>{children}</Typography.Title>
+    <Typography.Title css={css`font-size: 14px; font-weight: normal; color: var(--secondary-color); text-transform: capitalize; margin: 0;`}>{children}</Typography.Title>
   )
 }
 
 const ColBody = ({children}) => {
   return (
-    <Typography.Title css={css`font-size: 15px; color: var(--text-color); text-transform: capitalize; margin: 0;`}>{children}</Typography.Title>
+    <Typography.Title css={css`font-size: 15px; font-weight: normal; color: var(--text-color); text-transform: capitalize; margin: 0;`}>{children}</Typography.Title>
   )
 }
 

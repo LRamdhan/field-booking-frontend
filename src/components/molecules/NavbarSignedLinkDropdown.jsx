@@ -83,9 +83,9 @@ const NavbarSignedLinkDropdown = ({handleLogout}) => {
         { userError && (<>
           <div css={css`width: 40px; height: 40px; background-color: var(--blur-color); border-radius: 50%;`}></div>
         </>) }
-        { username && (<>
+        { (username && !userError) && (<>
           {userImgUrl ? (
-            <Avatar size={40} src={userImgUrl} />
+            <img src={`${userImgUrl}`} alt={'foto profile'} css={css`width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: center;`} />
           ) : (
             <Avatar size={40}>
               <span css={css`font-size: 25px;`}>{username.split("")[0]}</span>

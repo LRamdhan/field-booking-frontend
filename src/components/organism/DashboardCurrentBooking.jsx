@@ -52,31 +52,32 @@ const DashboardCurrentBooking = () => {
         </Flex>
       )}
 
-      {(data?.data?.length === 0) && (
-        <Flex vertical justify="center" align="center">
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Belum ada booking saat ini" />
-        </Flex>
-      )}
-
       {data && (
         <div>
           <h1 css={css`font-size: 18px; font-weight: bold; color: var(--text-color);`}>Booking Saat Ini</h1>
-          <div css={css`margin-top: 5px;`}>
-            {data.data.map((item, index) => (
-              <div key={index}>
-                <BookingItem data={item} />
-                {index !== data.data.length - 1 && <div css={css`width: 100%; height: 0.5px; background-color: var(--secondary-color);`}></div>}
+          {(data?.data?.length === 0) ? (
+            <Flex vertical justify="center" align="center" css={css`margin-top: 5px;`}>
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Belum ada booking saat ini" />
+            </Flex>
+          ) : (
+            <>
+              <div css={css`margin-top: 5px;`}>
+                {data.data.map((item, index) => (
+                  <div key={index}>
+                    <BookingItem data={item} />
+                    {index !== data.data.length - 1 && <div css={css`width: 100%; height: 0.5px; background-color: var(--secondary-color);`}></div>}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <Flex justify="end" css={css`width: 100%; margin-top: 5px; `}>
-            <Link to="/booking">
-              <Button color="default" variant="text" icon={<FaArrowRight css={css`color: var(--text-color); font-size: 15px;`} />} iconPosition="end" type="primary" css={css`font-size: 15px; font-weight: 500;`}>Lihat Semua</Button>
-            </Link>
-          </Flex>
+              <Flex justify="end" css={css`width: 100%; margin-top: 5px; `}>
+                <Link to="/booking">
+                  <Button color="default" variant="text" icon={<FaArrowRight css={css`color: var(--text-color); font-size: 15px;`} />} iconPosition="end" type="primary" css={css`font-size: 15px; font-weight: 500;`}>Lihat Semua</Button>
+                </Link>
+              </Flex>
+            </>
+          )}
         </div>
       )}
-
     </div>
   )
 }
