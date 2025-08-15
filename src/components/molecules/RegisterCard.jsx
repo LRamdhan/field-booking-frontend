@@ -46,7 +46,7 @@ const RegisterCard = () => {
     try {
       setIsLoading(true)
       await register(() => {
-        navigate(from || '/dashboard')
+        navigate(from || '/')
       })
       api.success({
         message: 'Registrasi Berhasil',

@@ -10,9 +10,11 @@ const layoutStyle = css`
 `
 
 const ContentLayout = ({ children }) => {
-  return (<main css={layoutStyle}>
-    {children}
-  </main>)
+  return (
+    <main css={layoutStyle}>
+      {children}
+    </main>
+  )
 }
 
 export default ContentLayout

@@ -8,7 +8,7 @@ import FetchError from '../molecules/FetchError';
 import { useEffect } from 'react';
 import { MdOutlineError } from 'react-icons/md';
 
-const Label = ({icon, os, lastLogin, logout, id}) => {
+const Label = ({icon, os, browser, lastLogin, logout, id}) => {
   const handleLogout = (e) => {
     e.stopPropagation();
     logout(id)
@@ -18,7 +18,8 @@ const Label = ({icon, os, lastLogin, logout, id}) => {
     <Flex align="center">
       <Image preview={false} src={icon} css={css`width: 57px; margin-right: 25px; display: none; @media(min-width: 768px) {display: block;}`} />
       <div>
-        <Typography.Text css={css`display: block; font-size: 15px; color: var(--text-color); text-transform: capitalize; margin: 0;`}>{os}</Typography.Text>
+        {/*actually browser should be os, but there's still a bug where android is recognized as linux */}
+        <Typography.Text css={css`display: block; font-size: 15px; color: var(--text-color); text-transform: capitalize; margin: 0;`}>{browser}</Typography.Text>
         <Typography.Text css={css`display: block; font-size: 14px; color: var(--secondary-color); text-transform: capitalize; margin-top: 2px;`}>Terakhir Login : {lastLogin}</Typography.Text>
       </div>
       <div css={css`flex-grow: 1;`}></div>
@@ -71,13 +72,13 @@ const DeviceContent = () => {
     itemsOthers = data.others.map(item => {
       return {
         key: item.id,
-        label: <Label icon={item.device === 'Desktop' ? destopImg : phoneImg} os={item.os} lastLogin={item.last_login} logout={logoutDevice} id={item.id} />,
+        label: <Label icon={item.device === 'Desktop' ? destopImg : phoneImg} os={item.os} browser={item.browser} lastLogin={item.last_login} logout={logoutDevice} id={item.id} />,
         children: <Content device={item.device} platform={item.platform} browser={item.browser} />,
       }
     })
     itemsCurrent.push({
       key: data.current.id,
-      label: <Label icon={data.current.device === 'Desktop' ? destopImg : phoneImg} os={data.current.os} lastLogin={data.current.last_login} logout={null} id={data.current.id} />,
+      label: <Label icon={data.current.device === 'Desktop' ? destopImg : phoneImg} os={data.current.os} browser={data.current.browser} lastLogin={data.current.last_login} logout={null} id={data.current.id} />,
       children: <Content device={data.current.device} platform={data.current.platform} browser={data.current.browser} />,
     })
   }

@@ -57,7 +57,7 @@ const FieldReviewHead = () => {
         {!isPending && (<>
           <Flex align="center" gap={6} css={css`margin-top: 7px;`}>
             <FaStar css={css`color: var(--text-color); font-size: 17px;`} />
-            <Text css={css`color: var(--text-color); font-size: 17px; font-weight: 500;`}>{average_rating?.toString().slice(0, 3)}</Text>
+            <Text css={css`color: var(--text-color); font-size: 17px; font-weight: 500;`}>{average_rating ? average_rating.toString().slice(0, 3) : 0}</Text>
             <Text css={css`color: var(--secondary-color); font-size: 13px; font-weight: 500;`}>/5</Text>
             <Text css={css`color: var(--secondary-color); font-size: 13px; font-weight: 500;`}>({total_reviews} Ulasan)</Text>
           </Flex>

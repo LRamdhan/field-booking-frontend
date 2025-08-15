@@ -31,6 +31,7 @@
     "filepond-plugin-image-transform": "^3.8.7",
     "js-cookie": "^3.0.5",
     "moment": "^2.30.1",
+    "motion": "^12.23.12",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-filepond": "^7.1.3",

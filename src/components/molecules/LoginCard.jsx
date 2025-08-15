@@ -40,7 +40,7 @@ const LoginCard = () => {
     setIsLoading(true)
     try {
       await login()
-      navigate(from || '/dashboard')
+      navigate(from || '/')
       setIsLoading(false)
     } catch(err) {
       let message
@@ -71,7 +71,7 @@ const LoginCard = () => {
         <Title level={2} css={css`text-align: center; font-size: 28px; margin-bottom: 40px; color: var(--text-color);`}>Login</Title>
         <Space direction="vertical" css={css`width: 100%;`} size={24}>
           <FieldEmail value={emailDec} setValue={setEmailDec} />
-          <FieldPassword value={passwordDec} setValue={setPasswordDec} />
+          <FieldPassword value={passwordDec} setValue={setPasswordDec} forgetPassword={true} />
           <Button size="large" type="primary" htmlType="submit" loading={isLoading} css={css`width: 100%; font-weight: 500; * {color: var(--background-color); font-size: 15px;}`}>Login</Button>
           <LoginDivider />
           <GoogleAuthButton />

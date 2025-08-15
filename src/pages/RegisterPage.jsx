@@ -5,8 +5,9 @@ import { Helmet } from 'react-helmet';
 const registerPageStyle = css`
   width: 100%;
   padding: 50px 12px; 
-  @media(min-height: 917px) {
-    height: 100vh;
+
+  @media(min-height: 975px) {
+    height: calc(100vh - 58px);
     display: flex;
     align-items: center;
     padding: 30px 12px;

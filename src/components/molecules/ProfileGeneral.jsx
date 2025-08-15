@@ -27,7 +27,7 @@ const ProfileGeneral = () => {
           ) : (
             <>
               {imgUrl ? (
-                <Avatar size={73} src={imgUrl} />
+                <img src={`${imgUrl}`} alt={name} css={css`width: 73px; height: 73px; border-radius: 50%; object-fit: cover; object-position: center;`} />
               ) : (
                 <Avatar size={73}>
                   <span css={css`font-size: 25px;`}>{name.split("")[0]}</span>
