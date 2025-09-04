@@ -29,6 +29,7 @@ import Root from "./components/templates/Root";
 import UnprotectedRoute from "./components/templates/UnprotectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AboutUsPage from "./pages/AboutUsPage";
+import OauthPage from "./pages/OauthPage";
 
 dayjs.locale('id');
 
@@ -37,11 +38,11 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
+      // protected route
       {
         path: "/",
         element: <Root LandingPage={LandingPage} Dashboard={() => (<ProtectedRoute><DasboardPage /></ProtectedRoute>)} />
       },
-
       {
         path: '/booking',
         element: <ProtectedRoute><UserBookingPage /></ProtectedRoute>,
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
       },
 
 
+      // free route
       {
         path: "/lapang",
         element: <FieldPage />
@@ -88,7 +90,12 @@ const router = createBrowserRouter([
           }
         ]
       },
+      {
+        path: "/oauth",
+        element: <OauthPage />
+      },
 
+      // unprotected route
       {
         path: "/login",
         element: <UnprotectedRoute><LoginPage /></UnprotectedRoute>
@@ -114,6 +121,7 @@ const router = createBrowserRouter([
         element: <UnprotectedRoute><AboutUsPage /></UnprotectedRoute>
       },
 
+      // not found route
       {
         path: "*",
         element: <NotFoundPage />
