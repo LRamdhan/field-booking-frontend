@@ -66,10 +66,6 @@ const NavbarUnsigned = () => {
                 <Button type="primary" css={css`width: 100%; font-weight: 500; font-size: 15px;`}>Register</Button>
               </Link>
             </div>
-
-
-
-
           </Flex>
         </SwipeDown>
       </nav>

@@ -5,15 +5,27 @@ import destopImg from '/img/desktop.svg'
 import phoneImg from '/img/phone.svg'
 import { useGetDevice, useLogoutDevice } from '../../hook/user.hooks';
 import FetchError from '../molecules/FetchError';
-import { useEffect } from 'react';
 import { MdOutlineError } from 'react-icons/md';
 
-const Label = ({icon, os, browser, lastLogin, logout, id}) => {
+const Label = ({icon, os, browser, lastLogin, logout, id, notifError409, notifError, notifSuccess}) => {
+  const {mutate: logoutDevice, isPending} = useLogoutDevice(id)
+
   const handleLogout = (e) => {
     e.stopPropagation();
-    logout(id)
+    logoutDevice(undefined, {
+      onSuccess: () => {
+        notifSuccess()
+      },
+      onError: (error) => {
+        if(error.status === 409) {
+          notifError409()
+        } else {
+          notifError()
+        }
+      }
+    })
   }
-
+  
   return (
     <Flex align="center">
       <Image preview={false} src={icon} css={css`width: 57px; margin-right: 25px; display: none; @media(min-width: 768px) {display: block;}`} />
@@ -23,7 +35,7 @@ const Label = ({icon, os, browser, lastLogin, logout, id}) => {
         <Typography.Text css={css`display: block; font-size: 14px; color: var(--secondary-color); text-transform: capitalize; margin-top: 2px;`}>Terakhir Login : {lastLogin}</Typography.Text>
       </div>
       <div css={css`flex-grow: 1;`}></div>
-      {logout && <Button type="primary" onClick={handleLogout}>Logout</Button>}
+      {logout && <Button type="primary" loading={isPending} onClick={handleLogout}>Logout</Button>}
     </Flex>
   )
 }
@@ -65,50 +77,47 @@ const DeviceContent = () => {
   const {data, isPending, error, refetch} = useGetDevice()
   let itemsOthers = []
   let itemsCurrent = []
-  const {mutate: logoutDevice, isPending: logoutPending, error: logoutError, isSuccess: logoutSuccess} = useLogoutDevice()
   const [api, contextHolder] = notification.useNotification();
+
+  const notifError409 = () => {
+    api.error({
+      message: 'Logout Gagal',
+      description: 'Perangkat yang anda pilih adalah perangkat saat ini',
+      placement: 'top',
+      icon: <MdOutlineError color="#E5342F" size={24} />
+    })
+  }
+
+  const notifError = () => {
+    api.error({
+      message: 'Terjadi Error',
+      description: 'Silahkan coba lagi nanti',
+      placement: 'top',
+      icon: <MdOutlineError color="#E5342F" size={24} />
+    })
+  }
+
+  const notifSuccess = () => {
+    api.success({
+      message: 'Logout Berhasil',
+      placement: 'top',
+    })
+  }
 
   if(data) {
     itemsOthers = data.others.map(item => {
       return {
         key: item.id,
-        label: <Label icon={item.device === 'Desktop' ? destopImg : phoneImg} os={item.os} browser={item.browser} lastLogin={item.last_login} logout={logoutDevice} id={item.id} />,
+        label: <Label icon={item.device === 'Desktop' ? destopImg : phoneImg} os={item.os} browser={item.browser} lastLogin={item.last_login} logout={true} id={item.id} notifError409={notifError409} notifError={notifError} notifSuccess={notifSuccess} />,
         children: <Content device={item.device} platform={item.platform} browser={item.browser} />,
       }
     })
     itemsCurrent.push({
       key: data.current.id,
-      label: <Label icon={data.current.device === 'Desktop' ? destopImg : phoneImg} os={data.current.os} browser={data.current.browser} lastLogin={data.current.last_login} logout={null} id={data.current.id} />,
+      label: <Label icon={data.current.device === 'Desktop' ? destopImg : phoneImg} os={data.current.os} browser={data.current.browser} lastLogin={data.current.last_login} logout={null} id={data.current.id} notifError409={notifError409} notifError={notifError} notifSuccess={notifSuccess} />,
       children: <Content device={data.current.device} platform={data.current.platform} browser={data.current.browser} />,
     })
   }
-
-  useEffect(() => {
-    if(logoutError) {
-      if(logoutError.status === 409) {
-        api.error({
-          message: 'Logout Gagal',
-          description: 'Perangkat yang anda pilih adalah perangkat saat ini',
-          placement: 'top',
-          icon: <MdOutlineError color="#E5342F" size={24} />
-        })
-      } else {
-        api.error({
-          message: 'Terjadi Error',
-          description: 'Silahkan coba lagi nanti',
-          placement: 'top',
-          icon: <MdOutlineError color="#E5342F" size={24} />
-        })
-      }
-    }
-
-    if(logoutSuccess) {
-      api.success({
-        message: 'Logout Berhasil',
-        placement: 'top',
-      })
-    }
-  }, [logoutPending, logoutError, logoutSuccess])
 
   return (
     <>

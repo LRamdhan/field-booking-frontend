@@ -52,8 +52,8 @@ const AboutGallery = () => {
       imgUrl: 'https://www.allsportamerica.com/wp-content/uploads/Futsal4.jpg'
     },
     {
-      area: 'h',
-      imgUrl: 'https://admin.saraga.id/storage/images/20211019-230305_1634659815.jpg'
+      area: 'b',
+      imgUrl: 'https://asset.kompas.com/crop/0x21:971x668/750x500/data/photo/2018/07/23/544914177.jpg'
     },
     {
       area: 'c',
@@ -73,10 +73,10 @@ const AboutGallery = () => {
     },
     {
       area: 'g',
-      imgUrl: 'https://asset.kompas.com/crop/0x21:971x668/750x500/data/photo/2018/07/23/544914177.jpg'
+      imgUrl: 'https://admin.saraga.id/storage/images/20211019-230305_1634659815.jpg'
     },
     {
-      area: 'b',
+      area: 'h',
       imgUrl: 'https://www.umn.ac.id/wp-content/uploads/2024/01/futsal-3.webp'
     },
   ]

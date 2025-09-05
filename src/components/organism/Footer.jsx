@@ -72,7 +72,7 @@ const Footer = () => {
         <hr css={css`border: none; border-top: 1px solid #E5E5E5; margin: 40px auto 0 auto; max-width: 960px;`} />
         <div>
           <Flex align="center" justify="center" gap={5} css={css`height: 70px; font-size: 14px; color: var(--text-color);`}>
-            Copyright <FaRegCopyright css={css`font-size: 13px; color: var(--text-color);`} /> 2025 LapangKu
+            <FaRegCopyright css={css`font-size: 13px; color: var(--text-color);`} /> 2025 LapangKu, All Rights Reserved.
           </Flex>
         </div>
       </FooterAnimation>

@@ -57,11 +57,11 @@ export const useGetDevice = () => {
   })
 }
 
-export const useLogoutDevice = () => {
+export const useLogoutDevice = (id) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (id) => await userApi.logoutDevice(id),
+    mutationFn: async () => await userApi.logoutDevice(id),
     retry: 0,
     onSuccess: async () => {
       return await queryClient.invalidateQueries({queryKey: ['device']})
