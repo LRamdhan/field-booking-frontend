@@ -14,7 +14,7 @@ const ChangePasswordOTP = () => {
   return (
     <>
       <Typography.Title css={css`font-size: 20px; color: var(--text-color); font-weight: 500; margin-bottom: 0;`}>Ubah Kata Sandi</Typography.Title>
-      <Typography.Text css={css`font-size: 15px; color: var(--text-color); display: block; margin-bottom: 0; margin-top: 18px;`}>Masukan Code yang dikirim ke aioeo@gmail.com untuk mengubah kata sandi anda.</Typography.Text>
+      <Typography.Text css={css`font-size: 15px; color: var(--text-color); display: block; margin-bottom: 0; margin-top: 18px;`}>Masukan Code yang dikirim ke email anda untuk mengubah kata sandi.</Typography.Text>
       <Flex vertical align="center" gap={25} css={css`margin-top: 28px;`}>
         <Input.OTP value={otp} onInput={handleInputOtp} />
         <ChangePasswordResendButton />
