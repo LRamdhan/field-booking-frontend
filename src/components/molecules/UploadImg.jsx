@@ -1,129 +1,317 @@
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { Button } from 'antd';
-
-import 'filepond/dist/filepond.min.css';
-import '@pqina/pintura/pintura.css';
-
-import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImageEditor from '@pqina/filepond-plugin-image-editor';
-
-import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
-
-import { create, registerPlugin } from 'filepond';
-
-import {
-  // Image editor
-  openEditor,
-  processImage,
-  createDefaultImageReader,
-  createDefaultImageWriter,
-  createDefaultImageOrienter,
-
-  // Only needed if loading legacy image editor data
-  legacyDataToImageState,
-
-  // Import the editor default configuration
-  getEditorDefaults,
-} from '@pqina/pintura';
-
-import { css } from '@emotion/react';
+import React, { useState, useCallback, useRef } from 'react';
+import Cropper from 'react-easy-crop';
 import useProfileStore from '../../store/profileStore';
+import { Button, Modal, Typography } from "antd"
+import { css } from '@emotion/react';
+import { FaPen } from "react-icons/fa";
 
-registerPlugin(
-  FilePondPluginFileValidateType,
-  FilePondPluginImageEditor,
-  FilePondPluginFilePoster
-);
+/**
+ * Utility: membuat elemen <img> dari sebuah URL/objectURL, dibungkus Promise
+ */
+function createImage(url) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener('load', () => resolve(image));
+    image.addEventListener('error', (error) => reject(error));
+    image.crossOrigin = 'anonymous';
+    image.src = url;
+  });
+}
 
-const UploadImg = () => {
-  const setEditImg = useProfileStore(state => state.setEditImg)
+/**
+ * Utility: memotong gambar sesuai area crop (pixel) menggunakan canvas,
+ * lalu mengembalikan hasilnya sebagai Blob URL.
+ *
+ * @param {string} imageSrc - objectURL/dataURL gambar asli
+ * @param {object} pixelCrop - { x, y, width, height } dari react-easy-crop
+ */
+async function getCroppedImageUrl(imageSrc, pixelCrop) {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
-  const textInput = useRef()
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
 
-  const handleUpdateFile = files => {
-    setEditImg(files[0].file)
-  }
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    pixelCrop.width,
+    pixelCrop.height
+  );
 
-  // const handleUpload = async () => {
-  //   await axios.patch('http://localhost:3000/api/users', {
-  //     avatar: file
-  //   }, {
-  //     headers: {
-  //       'Content-Type': 'multipart/form-data'
-  //     }
-  //   })
-  // }
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error('Gagal membuat blob dari canvas'));
+        return;
+      }
+      resolve(URL.createObjectURL(blob));
+    }, 'image/jpeg');
+  });
+}
 
-  useEffect(() => {
-    let pond = create(textInput.current, {
-      labelIdle: `Drag and drop your image or Click to Browse`,
-      imagePreviewHeight: 70,
-      imageCropAspectRatio: '1:1',
-      imageResizeTargetWidth: 70,
-      imageResizeTargetHeight: 70,
-      stylePanelLayout: 'compact circle',
-      styleLoadIndicatorPosition: 'center bottom',
-      styleProgressIndicatorPosition: 'right bottom',
-      styleButtonRemoveItemPosition: 'left bottom',
-      styleButtonProcessItemPosition: 'right bottom',
+function ImageCropUploader({imageSrc, setImageSrc, croppedImage, setCroppedImage, setCroppedAreaPixels, fileInputRef, handleAreaClick}) {
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
-      allowMultiple: false,
-      server: null,
-      onupdatefiles: handleUpdateFile,
-    
-      // FilePond generic properties
-      filePosterMaxHeight: 256,
+  // Saat user memilih file
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      // FilePond Image Editor plugin properties
-      imageEditor: {
-          // Maps legacy data objects to new imageState objects (optional)
-          legacyDataToImageState: legacyDataToImageState,
+    if (!file.type.startsWith('image/')) {
+      // alert('File yang dipilih harus berupa gambar.');
+      return;
+    }
 
-          // Used to create the editor (required)
-          createEditor: openEditor,
+    const objectUrl = URL.createObjectURL(file);
+    setImageSrc(objectUrl);
+    setCroppedImage(null); // reset hasil crop sebelumnya
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
 
-          // Used for reading the image data. See JavaScript installation for details on the `imageReader` property (required)
-          imageReader: [
-              createDefaultImageReader,
-              {
-                  // createDefaultImageReader options here
-              },
-          ],
+    // reset value input supaya bisa pilih file yang sama lagi jika perlu
+    e.target.value = '';
+  };
 
-          // Required when generating a preview thumbnail and/or output image
-          imageWriter: [
-              createDefaultImageWriter,
-              {
-                  // We'll resize images to fit a 512 × 512 square
-                  targetSize: {
-                      width: 512,
-                      height: 512,
-                  },
-              },
-          ],
-
-          // Used to create poster and output images, runs an invisible "headless" editor instance
-          imageProcessor: processImage,
-
-          // Pintura Image Editor options
-          editorOptions: {
-              // Pass the editor default configuration options
-              ...getEditorDefaults(),
-
-              // This will set a square crop aspect ratio
-              imageCropAspectRatio: 1,
-          },
-        },
-    });
-  }, [])
+  // Dipanggil react-easy-crop setiap kali area crop berubah
+  const onCropComplete = useCallback((_croppedArea, croppedAreaPixelsValue) => {
+    setCroppedAreaPixels(croppedAreaPixelsValue);
+  }, []);
 
   return (
-    <div css={css`width: 73px; height: 73px;`}>
-      <input type="text" ref={textInput} />
+    <div style={styles.wrapper}>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
+
+      {/* Mode 1: belum ada gambar sama sekali -> area klik untuk pilih file */}
+      {!imageSrc && !croppedImage && (
+        <div style={styles.dropArea} onClick={handleAreaClick}>
+          <span style={styles.dropIcon}>+</span>
+          <p style={styles.dropText}>Klik untuk memilih gambar</p>
+        </div>
+      )}
+
+      {/* Mode 2: gambar dipilih -> tampilkan cropper */}
+      {imageSrc && (
+        <div>
+          <div style={styles.cropContainer}>
+            <Cropper
+              image={imageSrc}
+              crop={crop}
+              zoom={zoom}
+              aspect={1}
+              onCropChange={setCrop}
+              onZoomChange={setZoom}
+              onCropComplete={onCropComplete}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Mode 3: sudah ada hasil crop -> tampilkan preview */}
+      {croppedImage && (
+        <div style={styles.previewWrapper}>
+          <img src={croppedImage} alt="Hasil crop" style={styles.previewImage} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+const styles = {
+  wrapper: {
+    padding: '5px 0',
+    fontFamily: 'system-ui, sans-serif',
+  },
+  dropArea: {
+    width: '100%',
+    boxSizing: 'border-box',
+    padding: '54px 0',
+    border: '2px dashed #bbb',
+    borderRadius: 8,
+    textAlign: 'center',
+    cursor: 'pointer',
+    color: '#666',
+    background: '#fafafa',
+  },
+  dropIcon: {
+    fontSize: 32,
+    display: 'block',
+    marginBottom: 8,
+  },
+  dropText: {
+    margin: 0,
+    fontSize: 14,
+  },
+  cropContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 320,
+    background: '#333',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  controls: {
+    marginTop: 12,
+  },
+  zoomLabel: {
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: 13,
+    color: '#444',
+    gap: 4,
+  },
+  zoomSlider: {
+    width: '100%',
+  },
+  buttonRow: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: 8,
+  },
+  buttonPrimary: {
+    padding: '8px 16px',
+    background: '#2563eb',
+    color: '#fff',
+    border: 'none',
+    borderRadius: 6,
+    cursor: 'pointer',
+    fontSize: 14,
+  },
+  buttonSecondary: {
+    padding: '8px 16px',
+    background: '#eee',
+    color: '#333',
+    border: 'none',
+    borderRadius: 6,
+    cursor: 'pointer',
+    fontSize: 14,
+  },
+  previewWrapper: {
+    textAlign: 'center',
+    width: '100%',
+  },
+  previewImage: {
+    width: '100%',
+    borderRadius: 8,
+    border: '1px solid #ddd',
+  },
+};
+
+
+const ModalTitle = () => {
+  return <Typography.Title css={css`font-size: 18px; color: var(--text-color); margin: 0; font-weight: 500; border-bottom: 1px solid var(--blur-color); padding-bottom: 20px;`}>Edit Gambar</Typography.Title>
+}
+
+const Control = ({handleCancelCrop, handleConfirmCrop, handleAreaClick, handleReset, imageSrc, croppedImage, handleSimpanCropped}) => {
+  const handleSimpan = () => {
+    handleSimpanCropped()
+  }
+
+  return (
+    <div style={styles.controls}>
+      <div style={styles.buttonRow}>
+        {(croppedImage) && (
+          <div style={styles.buttonRow}>
+            <Button onClick={handleAreaClick} variant="outlined" size="large" css={css`font-size: 15px; font-weight: 500;`}>Ganti Gambar</Button>
+            <Button onClick={handleReset} variant="outlined" size="large" css={css`font-size: 15px; font-weight: 500;`}>Hapus</Button>
+          </div>
+        )}
+        {(imageSrc) && (
+          <Button onClick={handleConfirmCrop} variant="outlined" size="large" css={css`font-size: 15px; font-weight: 500;`}>Terapkan Crop</Button>
+        )}
+        <Button onClick={handleSimpan} type="primary" size="large" css={css`font-size: 15px; font-weight: 500; color: var(--background-color);`}>Simpan</Button>
+      </div>
     </div>
   )
+}
+
+const UploadImg = () => {
+  const [openDialog, setOpenDialog] = useState(false)
+  const [imageSrc, setImageSrc] = useState(null); // gambar asli (sebelum crop)
+  const [croppedImage, setCroppedImage] = useState(null); // hasil crop (preview akhir)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const fileInputRef = useRef(null);
+  const setEditImg = useProfileStore(state => state.setEditImg)
+  const imgUrl = useProfileStore(state => state.imgUrl)
+  const editMode = useProfileStore(state => state.editMode)
+
+  if(editMode == false && (imageSrc || croppedImage)) {
+    setCroppedImage(null)
+    setImageSrc(null)
+  }
+
+   // Konfirmasi crop -> proses gambar & tampilkan preview
+   const handleConfirmCrop = async () => {
+    if (!imageSrc || !croppedAreaPixels) return;
+    try {
+      const croppedUrl = await getCroppedImageUrl(imageSrc, croppedAreaPixels);
+      setCroppedImage(croppedUrl);
+      setImageSrc(null); // tutup mode crop, kembali ke tampilan preview
+    } catch (err) {
+      console.error(err);
+      // alert('Gagal memproses gambar.');
+    }
+  };
+
+  const handleCancelCrop = () => {
+    setImageSrc(null);
+  };
+
+  const handleReset = () => {
+    setCroppedImage(null);
+    setImageSrc(null);
+  };
+
+  // Buka dialog pilih file saat area diklik
+  const handleAreaClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleCloseModal = () => {
+    setOpenDialog(false)
+    setImageSrc(null)
+    setCroppedImage(null)
+  }
+
+  const handleSimpanCropped = async () => {
+    const cropped = await fetch(croppedImage).then(res => res.blob())
+    setEditImg(cropped)
+    setOpenDialog(false)
+  }
+
+  return (<>
+    <div css={css`width: max-content; height: max-content; border-radius: 50%; overflow: hidden; position: relative;`}>
+      <img src={`${croppedImage || imgUrl}`} alt={name} css={css`width: 73px; height: 73px; border-radius: 50%; object-fit: cover; object-position: center;`} />
+      <div onClick={() => setOpenDialog(true)} css={css`position: absolute; top: 0; left: 0; right: 0; bottom: 0; transition: 0.2s; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.5); opacity: 0; cursor: pointer; &:hover { opacity: 1; }`}>
+        <FaPen size={22} css={css`color: var(--background-color);`} />
+      </div>
+    </div>
+
+    <Modal
+      open={openDialog}
+      title={<ModalTitle />}
+      centered={true}
+      footer={<Control handleConfirmCrop={handleConfirmCrop} handleCancelCrop={handleCancelCrop} handleAreaClick={handleAreaClick} handleReset={handleReset} imageSrc={imageSrc} croppedImage={croppedImage} handleSimpanCropped={handleSimpanCropped} />}
+      width={566}
+      destroyOnHidden={true}
+      onCancel={handleCloseModal}
+    >
+      <ImageCropUploader imageSrc={imageSrc} setImageSrc={setImageSrc} croppedImage={croppedImage} setCroppedImage={setCroppedImage} setCroppedAreaPixels={setCroppedAreaPixels} fileInputRef={fileInputRef} handleAreaClick={handleAreaClick} />
+    </Modal>
+  </>)
 }
 
 export default UploadImg

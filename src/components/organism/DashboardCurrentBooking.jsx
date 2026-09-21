@@ -9,7 +9,27 @@ import dayjs from "dayjs";
 const BookingItem = ({data}) => {
   const schedule = dayjs(data.schedule)
   const now = dayjs()
-  const diff = schedule.diff(now, "day")
+
+  let diffDay = schedule.diff(now, "day")
+  let diffHour = schedule.diff(now, "hour")
+  let diffMinute = schedule.diff(now, "minute")
+  let diffSecond = schedule.diff(now, "second")
+
+  diffDay = diffDay < 0 ? (diffDay * -1) : diffDay
+  diffHour = diffHour < 0 ? (diffHour * -1) : diffHour
+  diffMinute = diffMinute < 0 ? (diffMinute * -1) : diffMinute
+  diffSecond = diffSecond < 0 ? (diffSecond * -1) : diffSecond
+
+  let timeMessage = '';
+  if(diffDay >= 1) {
+    timeMessage = `${diffDay} hari lagi`
+  } else if(diffHour >= 1) {
+    timeMessage = `${diffHour} jam lagi`
+  } else if(diffMinute >= 1) {
+    timeMessage = `${diffMinute} menit lagi`
+  } else {
+    timeMessage = `${diffSecond} detik lagi`
+  }
 
   return (
     <Link to={`/booking/${data.id}`}>
@@ -21,7 +41,7 @@ const BookingItem = ({data}) => {
             <p css={css`font-size: 14px; color: var(--secondary-color); margin-top: 4px;`}>{schedule.format("DD MMMM YYYY")}</p>
           </div>
         </Flex>
-        <div css={css`font-size: 14px; color: var(--text-color); height: max-content; padding: 5px 10px; border: 1.5px solid var(--primary-color); border-radius: 7px; background-color: #FFE5D0;`}>{diff} Hari Lagi</div>
+        <div css={css`font-size: 14px; color: var(--text-color); height: max-content; padding: 5px 10px; border: 1.5px solid var(--primary-color); border-radius: 7px; background-color: #FFE5D0;`}>{timeMessage}</div>
         <IoIosArrowForward css={css`display: none; color: var(--text-color); font-size: 18px; @media(min-width: 500px) {display: block;`} />
       </Flex>
     </Link>

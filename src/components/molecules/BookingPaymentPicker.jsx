@@ -37,7 +37,7 @@ const BookingPaymentPicker = () => {
         onChange={handleSelect}
         css={css`display: flex; flex-direction: column; gap: 8; margin-top: 12px;`}
         options={[
-          { value: 'ONLINE', label: 'Bayar sekarang' },
+          { value: 'ONLINE', label: 'Bayar online' },
           { value: 'POA', label: 'Bayar di tempat' },
         ]}
       />
