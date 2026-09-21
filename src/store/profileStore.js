@@ -55,12 +55,25 @@ const useProfileStore = create((set, get) => ({
       newState.editSubDistrict = {name: data?.sub_district}
 
       try {
-        const cityCode = await userApi.getCityCode(data?.city)
-        newState.city.code = cityCode
-        newState.editCity.code = cityCode
-        const districtCode = await userApi.getDistrictCode(data?.district, cityCode)
-        newState.district.code = districtCode
-        newState.editDistrict.code = districtCode
+        let cityCode = '-'
+        if(data?.city && (data?.city !== '-')) {
+          cityCode = await userApi.getCityCode(data?.city)
+          newState.city.code = cityCode
+          newState.editCity.code = cityCode
+        } else {
+          newState.city.code = cityCode
+          newState.editCity.code = cityCode
+        }
+
+        let districtCode = '-'
+        if(data?.district && (data?.district !== '-')) {
+          districtCode = await userApi.getDistrictCode(data?.district, cityCode)
+          newState.district.code = districtCode
+          newState.editDistrict.code = districtCode
+        } else {
+          newState.district.code = districtCode
+          newState.editDistrict.code = districtCode
+        }
       } catch(err) {
         console.log(err.message);
       }
