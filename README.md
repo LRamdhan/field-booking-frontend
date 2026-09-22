@@ -1,16 +1,20 @@
 # LapangKu - Frontend
 
-### Run Server in Development Mode
+## Preparation
+
+Create .env file using .env.example, fill all required fields!
+
+## Run Server in Development Mode
 ```bash
 npm run dev
 ```
 
-### Build
+## Build
 ```bash
 npm run build
 ```
 
-### Preview
+## Preview
 ```bash
 npm run preview
 ```
